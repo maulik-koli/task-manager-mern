@@ -4,7 +4,6 @@ const auth = require('../middleware/auth')
 
 const router = express()
 
-
 // steps for making authentication and security
 // first do curd
 // hash password (do it in pre method of schema with 'save')
@@ -12,9 +11,23 @@ const router = express()
 // genrate token
 // store token in db
 // set middleware of authentication
-// 
+// set logout
+// set logout all
 
+// read all
+router.get('/all', async (req, res) => {
+    try{
+        const users = await Users.find({})
 
+        if(!users){
+            res.status(404).send({ message: "Cound not find users" })
+        }
+        res.status(200).send(users)
+    }
+    catch(e){
+        res.status(400).send({ message: e.message })
+    }
+})
 
 // sign up
 router.post('/', async (req, res) => {
@@ -42,13 +55,38 @@ router.post('/login', async (req, res) => {
     }
 })
 
+// logout
+router.post('/logout', auth, async (req, res) => {
+    try{
+        req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token)
+        await req.user.save()
+        res.send()
+    }
+    catch(e){
+        res.status(500).send()
+    }
+})
+
+// logout all
+router.post('/logoutAll', auth, async (req, res) => {
+    const user = req.user
+    try{
+        user.tokens = []
+        await user.save()
+        res.send()
+    }
+    catch(e){
+        res.status(500).send()
+    }
+})
+
 // read profile
 router.get('/me', auth, async (req, res) => {
     res.send(req.user)
 })
 
 // see profile
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
     try{
         const user = await Users.findById(req.params.id)
 
@@ -63,7 +101,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // update profile
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'email', 'password']
     const isValid = updates.every((update) => allowedUpdates.includes(update))
@@ -89,7 +127,7 @@ router.patch('/:id', async (req, res) => {
 })
 
 // delete profile
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     try{
         const user = await Users.findByIdAndDelete(req.params.id)
 
