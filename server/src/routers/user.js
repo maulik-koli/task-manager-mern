@@ -15,6 +15,7 @@ const router = express()
 // set logout all
 
 // read all
+// going to remove
 router.get('/all', async (req, res) => {
     try{
         const users = await Users.find({})
@@ -57,9 +58,10 @@ router.post('/login', async (req, res) => {
 
 // logout
 router.post('/logout', auth, async (req, res) => {
+    const user = req.user
     try{
-        req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token)
-        await req.user.save()
+        user.tokens = user.tokens.filter((token) => token.token !== req.token)
+        await user.save()
         res.send()
     }
     catch(e){
@@ -86,6 +88,7 @@ router.get('/me', auth, async (req, res) => {
 })
 
 // see profile
+// goint to remove to
 router.get('/:id', auth, async (req, res) => {
     try{
         const user = await Users.findById(req.params.id)
@@ -101,7 +104,7 @@ router.get('/:id', auth, async (req, res) => {
 })
 
 // update profile
-router.patch('/:id', auth, async (req, res) => {
+router.patch('/me', auth, async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'email', 'password']
     const isValid = updates.every((update) => allowedUpdates.includes(update))
@@ -111,15 +114,10 @@ router.patch('/:id', auth, async (req, res) => {
     }
 
     try{
-        const user = await Users.findOne({ _id: req.params.id })
-
-        if(!user){
-            return res.status(404).send({ error: "User not found" })
-        }
-
+        const user = req.user
         updates.forEach((update) => user[update] = req.body[update] )
         await user.save()
-        res.status(200).send({ message: "User updated" })
+        res.status(200).send({ user, message: "User updated" })
     }
     catch(e){
         res.status(400).send({ error: e.message })
@@ -127,15 +125,11 @@ router.patch('/:id', auth, async (req, res) => {
 })
 
 // delete profile
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/me', auth, async (req, res) => {
+    const user = req.user
     try{
-        const user = await Users.findByIdAndDelete(req.params.id)
-
-        if(!user){
-            return res.status(404).send({ error: "User not found" })
-        }
-        
-        res.status(200).send({ message: "User deleted"})
+        await user.deleteOne()
+        res.status(200).send({ user ,message: "User deleted"})
     }
     catch(e){
         res.status(500).send({ error: e.message })
