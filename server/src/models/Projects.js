@@ -14,6 +14,11 @@ const projectSchema = new mongoose.Schema({
     list: {
         type: [String],
         default: []
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Users",
     }
 })
 
