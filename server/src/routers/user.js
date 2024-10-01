@@ -14,6 +14,7 @@ const router = express()
 // set middleware of authentication
 // set logout
 // set logout all
+// add middleware for after error of server or others
 
 // read all
 // going to remove
@@ -32,16 +33,16 @@ router.get('/all', async (req, res) => {
 })
 
 // sign up
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
     const user = new Users(req.body)
-    const token = await user.generateAuthToken()
-
+    
     try{
         await user.save()
+        const token = await user.generateAuthToken()
         res.status(201).send({ user, token, message: "You succesfully sign up."})
     }
     catch(e){
-        res.status(400).send({ message: e.message })
+        next(e)
     }
 })
 

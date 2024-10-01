@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 
-import classes from '../stlyes/SignUpLogIn.module.css'
+import { createUser } from '../api/userApi.js'
+import { isValidPassword } from '../utils/fuctions.js'
 
+import classes from '../stlyes/SignUpLogIn.module.css'
 const { signUp, inputs, formBtns, inoutContainer } = classes
 
+
 const SignUp = () => {
-    const [isMatch, setIsMatch] = useState(false)
+    const [isInputValid, setIsInputValid] = useState(<></>)
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -14,13 +17,23 @@ const SignUp = () => {
         const data = Object.fromEntries(fd.entries())
 
         if(data.password !== data['confirm-password']){
-            setIsMatch(true)
+            setIsInputValid(<p>Password and Confirm password must be same</p>)
+            return
+        }
+
+        const isValid = isValidPassword(data.password)
+
+        if(!isValid){
+            setIsInputValid(<p>
+                Passwrod must have minimum 8 length.<br/>Passwrod must have atleast one number.<br/>Passwrod must have arleast one special character.
+            </p>)
             return
         }
 
         delete data["confirm-password"]
-        console.log(data)
-        setIsMatch(fals
+        setIsInputValid(<></>)
+        const url = "http://localhost:3000/users"
+        createUser(url, data)
     }
 
     return (
@@ -29,11 +42,11 @@ const SignUp = () => {
             <form onSubmit={handleSubmit}>
                 <div className={inputs}>
                     <div className={inoutContainer} >
-                        <input type='text' placeholder='Enter name' name='name'  required/>
+                        <input type='text' placeholder='Enter name' name='name'  />
                         <label>Name</label>
                     </div>
                     <div className={inoutContainer}>
-                        <input type='email' placeholder='Enter email' name='email' required/>
+                        <input type='email' placeholder='Enter email' name='email' />
                         <label>Email</label>
                     </div>
                     <div className={inoutContainer}>
@@ -50,7 +63,7 @@ const SignUp = () => {
                     <button type='reset'>Reset</button>
                 </div>
             </form>
-            <p>this is error message</p>
+            {isInputValid}
         </div>
     )
 }
