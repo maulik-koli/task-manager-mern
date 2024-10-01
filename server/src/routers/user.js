@@ -1,6 +1,7 @@
 const express = require('express')
 const Users = require('../models/Users')
 const auth = require('../middleware/auth')
+const { checkValid } = require('../utils/fuctions')
 
 const router = express()
 
@@ -88,7 +89,7 @@ router.get('/me', auth, async (req, res) => {
 })
 
 // see profile
-// goint to remove to
+// going to remove
 router.get('/:id', auth, async (req, res) => {
     try{
         const user = await Users.findById(req.params.id)
@@ -105,9 +106,7 @@ router.get('/:id', auth, async (req, res) => {
 
 // update profile
 router.patch('/me', auth, async (req, res) => {
-    const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email', 'password']
-    const isValid = updates.every((update) => allowedUpdates.includes(update))
+    const {isValid, updates} = checkValid(req.body,  ['name', 'email', 'password'])
 
     if(!isValid){
         return res.status(400).send({ error : "Invalid update!" })

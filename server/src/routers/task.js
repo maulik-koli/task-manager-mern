@@ -1,6 +1,7 @@
 const express = require('express')
 const Tasks = require('../models/Tasks')
 const auth = require('../middleware/auth')
+const { checkValid } = require('../utils/fuctions')
 
 const router = express()
 
@@ -22,8 +23,19 @@ router.post('/', auth, async (req, res) => {
 
 // get all tasks
 router.get('/', auth, async (req, res) => {
+    const match = {}
+
+    if(req.query.completed){
+        match.completed = req.query.completed === "true"
+    }
+
     try{
-        const tasks = await Tasks.find({ owner: req.user._id })
+        // const tasks = await Tasks.find({ owner: req.user._id })
+        await req.user.populate({
+            path: 'tasks',
+            match
+        })
+        const tasks = req.user.tasks
 
         if (!tasks.length) {
             return res.status(404).send(); 
@@ -39,10 +51,15 @@ router.get('/', auth, async (req, res) => {
 // get by categories
 router.get('/category/:category', auth, async (req, res) => {
     const category = req.params.category
+    const match = {}
+
+    if(req.query.completed){
+        match.completed = req.query.completed === "true"
+    }
 
     try {
         const tasks = await Tasks.find({ owner: req.user._id, category });
-        
+
         if (!tasks.length) {
             return res.status(404).send(); 
         }
@@ -56,15 +73,14 @@ router.get('/category/:category', auth, async (req, res) => {
 
 // get task by id
 router.get('/:id', auth, async (req, res) => {
-    const _id = req.params.id
-
     try{
+        const _id = req.params.id
         const task = await Tasks.findOne({ _id, owner: req.user._id })
 
         if(!task){
             return res.status(404).send()
         }
-        
+
         res.status(200).send(task)
     }
     catch(e){
@@ -74,16 +90,14 @@ router.get('/:id', auth, async (req, res) => {
 
 // update task
 router.patch('/:id', auth, async (req, res) => {
-    const _id = req.params.id
-    const updates = Object.keys(req.body)
-    const allowedUpdates = ['description', 'completed', 'category']
-    const isValid = updates.every((update) => allowedUpdates.includes(update))
-
+    const {isValid, updates} = checkValid(req.body, ['description', 'completed', 'category'])
+    
     if(!isValid){
         return res.status(400).send({ error : "Invalid update!" })
     }
-
+    
     try{
+        const _id = req.params.id
         const task = await Tasks.findOne({ _id, owner: req.user._id })
 
         if(!task){
@@ -101,8 +115,8 @@ router.patch('/:id', auth, async (req, res) => {
 
 // delete tasks
 router.delete('/:id', auth, async (req, res) => {
-    const _id = req.params.id
     try{
+        const _id = req.params.id
         const task = await Tasks.findByIdAndDelete({ _id, owner: req.user._id })
 
         if(!task){

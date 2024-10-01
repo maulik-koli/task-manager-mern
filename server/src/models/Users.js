@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const Tasks = require('./Tasks')
+const Projects = require('./Projects')
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -37,6 +39,8 @@ const userSchema = new mongoose.Schema({
             required: true
         }
     }]
+}, {
+    timestamps: true
 })
 
 userSchema.virtual('tasks', {
@@ -95,6 +99,14 @@ userSchema.pre('save', async function (next) {
         user.password = await bcrypt.hash(user.password, 8)
     }
 
+    next()
+})
+
+// delete other data with deleting account
+userSchema.pre('remove', async function (next) {
+    const user = this
+    await Tasks.deleteMany({ owner: user._id })
+    await Projects.deleteMany({ owner: user._id })
     next()
 })
 

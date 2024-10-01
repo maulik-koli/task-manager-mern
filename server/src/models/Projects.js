@@ -11,8 +11,17 @@ const projectSchema = new mongoose.Schema({
         trim: true,
         default: ""
     },
-    list: {
-        type: [String],
+    subtasks: {
+        type: [{
+            subtask: {
+                type: String,
+                trim: true,
+            },
+            isDone: {
+                type: Boolean,
+                default: false
+            }
+        }],
         default: []
     },
     owner: {
@@ -20,6 +29,8 @@ const projectSchema = new mongoose.Schema({
         required: true,
         ref: "Users",
     }
+}, {
+    timestamps: true
 })
 
 const Projects = mongoose.model('Projects', projectSchema)
