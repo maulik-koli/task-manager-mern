@@ -1,6 +1,7 @@
 const express = require('express')
 const Projects = require('../models/Projects')
 const auth = require('../middleware/auth')
+const { checkValid } = require('../utils/fuctions')
 
 const router = express()
 
@@ -23,7 +24,9 @@ router.post('/', auth, async (req, res) => {
 // get all project
 router.get('/', auth, async (req, res) => {
     try{
-        const projects = await Projects.find({ owner: req.user._id })
+        // const projects = await Projects.find({ owner: req.user._id })
+        await req.user.populate('projects')
+        const projects = req.user.projects
 
         if(!projects.length){
             res.status(404).send()
@@ -38,9 +41,8 @@ router.get('/', auth, async (req, res) => {
 
 // get project by id
 router.get('/:id', auth, async (req, res) => {
-    const _id = req.params.id
-
     try{
+        const _id = req.params.id
         const project = await Projects.find({ _id, owner: req.user._id })
 
         if(!project){
@@ -56,36 +58,21 @@ router.get('/:id', auth, async (req, res) => {
 
 // update project
 router.patch('/:id', auth, async (req, res) => {
-    const _id = req.params.id
-    const updates = Object.keys(req.body)
-    const allowedUpdates = ['title', 'description', 'list']
-    const isValid = updates.every((update) => allowedUpdates.includes(update))
+    const {isValid, updates} = checkValid(req.body, ['title', 'description'])
 
     if(!isValid){
         return res.status(400).send({ error : "Invalid update!" })
     }
 
     try{
+        const _id = req.params.id
         const project = await Projects.findOne({ _id, owner: req.user._id })
 
         if(!project){
             return res.status(404).send({ error: "Project not found" })
         }
 
-        updates.forEach((update) => {
-            if(update === "list"){
-                const newList = req.body.list
-
-                if (!Array.isArray(newList) || !newList.every(item => typeof item === 'string')) {
-                    return res.status(400).send({ error: "Invalid input format." });
-                }
-
-                project.list = newList
-            }
-            else{
-                project[update] = req.body[update]
-            }
-        })
+        updates.forEach((update) => project[update] = req.body[update])
         await project.save()
         res.status(200).send({ project, message: "Project updated" })
     }
@@ -96,9 +83,8 @@ router.patch('/:id', auth, async (req, res) => {
 
 // delete project
 router.delete('/:id', auth, async (req, res) => {
-    const _id = req.params.id
-
     try{
+        const _id = req.params.id
         const project = await Projects.findByIdAndDelete({ _id, owner: req.user._id })
 
         if(!project){
