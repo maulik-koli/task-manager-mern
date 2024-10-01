@@ -1,0 +1,63 @@
+/* SignUpLogIn.module.css */
+.container {
+    width: 83%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signUp {
+    height: 80%;
+    width: 40%;
+    background-color: rgba(37, 37, 37, 0.504);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.inputs input {
+    height: 2.8rem;
+    width: 25rem;
+    background-color: rgba(216, 215, 215, 0.926);
+}
+
+.inoutContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.formBtns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+}
+
+.formBtns button {
+    height: 2rem;
+    width: 6rem;
+    background-color: rgb(108, 108, 108);
+    border: 2px solid black;
+    color: white;
+}
+
+
+.signUp p {
+    font-weight: 900;
+    font-size: 1.3em;
+}

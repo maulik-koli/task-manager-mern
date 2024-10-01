@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* header */
+header {
+    height: 10vh;
+    background-color: rgb(183, 49, 0);
+}
+
+header .navigate {
+    display: flex;
+    align-items: center;
+}
+
+.navigate ul {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    list-style: none;
+}
+
+.nav-btns {
+    margin-left: auto;
+}
+
+.nav-btns button {
+    height: 2rem;
+    width: 5rem;
+    margin: .5rem;
+}
+
+#logo {
+    width: 50px;
+}
+
+/* main */
+main {
+    display: flex;
+    height: 90vh;
+}
+
+.home {
+    width: 83%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: x-large;
+}
+
+.error-page {
+    width: 83%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: x-large;
+}
