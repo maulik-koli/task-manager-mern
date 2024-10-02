@@ -60,3 +60,16 @@ main {
     align-items: center;
     font-size: x-large;
 }
+
+.loading-container {
+    margin: auto;
+    height: 40%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-container h1 {
+    font-size: xx-large;
+}

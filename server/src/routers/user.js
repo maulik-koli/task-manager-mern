@@ -47,14 +47,14 @@ router.post('/', async (req, res, next) => {
 })
 
 // login
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
     try{
         const user = await Users.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
         res.status(200).send({ user , token })
     }
     catch(e){
-        res.status(400).send({ message: e.message })
+        next(e)
     }
 })
 
