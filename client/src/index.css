@@ -73,3 +73,17 @@ main {
 .loading-container h1 {
     font-size: xx-large;
 }
+
+.profile-name {
+    margin-left: auto;
+    margin-right: 3rem;
+}
+
+.profile-name button {
+    height: 2.5rem;
+    width: 6rem;
+    font-size: large;
+    border: none;
+    background-color: rgb(105, 28, 0);
+    color: rgb(1, 130, 130);
+}

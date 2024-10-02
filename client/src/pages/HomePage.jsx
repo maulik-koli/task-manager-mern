@@ -1,11 +1,14 @@
 import React from 'react'
 
+import HomeText from '../components/HomeText'
+import HomeContent from './HomeContent'
+
 const HomePage = () => {
   return (
-    <div className='home'>
-      <h1>This is Home Page</h1>
-      <p>Mern-stack Task Manager project</p>
-    </div>
+    <>
+      <HomeText />
+      {/* <HomeContent /> */}
+    </>
   )
 }
 

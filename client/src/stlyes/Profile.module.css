@@ -1,0 +1,69 @@
+.profile {
+    width: 83%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.me {
+    width: 80%;
+    height: 50%;
+    background-color: blue;
+    font-size: x-large;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+}
+
+.meText {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.meText h1 {
+    width: 10em;
+    height: 1.5em;
+}
+
+.meText p {
+    width: 20em;
+    height: 1.5em;
+}
+
+.control {
+    width: 80%;
+    height: 30%;
+    background-color: cornflowerblue;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.control button {
+    margin-top: 1%;
+    height: 2rem;
+    width: 8rem;
+}
+
+.inputs {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1rem;
+}
+
+.inputsCon {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputs input {
+    height: 2.8rem;
+    width: 25rem;
+}
