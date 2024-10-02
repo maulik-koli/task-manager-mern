@@ -38,3 +38,17 @@ export const getCookie = (name) => {
         return decodeURIComponent(parts.pop().split(';').shift());
     }
 }
+
+export const formatDate = (dateString) => {
+    const months = [
+        'Jan', 'Feb', 'March', 'April', 'May', 'June',
+        'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+
+    const date = new Date(dateString);
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = months[date.getUTCMonth()];
+    const year = date.getUTCFullYear();
+
+    return `${day} ${month} ${year}`;
+};

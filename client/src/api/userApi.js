@@ -1,4 +1,4 @@
-import { setCookie } from "../utils/fuctions";
+import { setCookie, getCookie } from "../utils/fuctions";
 
 export const sigupLoginUser = async (BASE_URL, reqData) => {
     try {
@@ -19,8 +19,34 @@ export const sigupLoginUser = async (BASE_URL, reqData) => {
         setCookie('authToken', responseData.token, 2);
         return { status: response.status, data: responseData };
     } 
-    catch(error) {
-        console.log(error.message);
+    catch(e) {
+        console.log(e.message);
         return { status: 500, error: 'Internal server error' }; 
     }
 };
+
+export const userProfile = async (BASE_URL) => {
+    const token = getCookie('authToken')
+
+    try{
+        const response = await fetch(BASE_URL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+
+        if(!response.ok) {
+            const errorData = await response.json();
+            return { status: response.status, error: errorData.message || 'Something went wrong' };
+        }
+
+        const responseData = await response.json();
+        return { status: response.status, data: responseData };
+    }
+    catch(e){
+        console.log(e.message);
+        return { status: 500, error: 'Internal server error' }; 
+    }
+}

@@ -8,10 +8,13 @@ const { container } = classes
 
 const SignUpLogIn = () => {
   return (
-    <div className={container}>
-      {/* <SignUp /> */}
-      <LogIn />
-    </div>
+    <>
+        <h1>Somthing</h1>
+        <div className={container}>
+          {/* <SignUp /> */}
+          <LogIn />
+        </div>
+    </>
   )
 }
 
