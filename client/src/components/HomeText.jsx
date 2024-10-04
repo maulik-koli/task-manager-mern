@@ -1,8 +1,12 @@
 import React from 'react'
 
+import classes from '../stlyes/Home.module.css'
+
+const { homeText } = classes
+
 const HomeText = () => {
   return (
-    <div className='home'>
+    <div className={homeText}>
       <h1>This is Home Page</h1>
       <p>Mern-stack Task Manager project</p>
     </div>
