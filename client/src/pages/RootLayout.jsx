@@ -15,33 +15,35 @@ const RootLayout = () => {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const getUserProfile = async () => {
-      setIsFetching(true)
-      const url = "http://localhost:3000/users/me"
-      const result = await userProfile(url)
+  // useEffect(() => {
+  //   const getUserProfile = async () => {
+  //     setIsFetching(true)
+  //     const url = "http://localhost:3000/users/me"
+  //     const result = await userProfile(url)
       
-      if(result.status === 401) {
-        navigate('/signuplogin')
-        setUser(null)
-        return
-      }
+  //     if(result.status === 401) {
+  //       navigate('/signuplogin')
+  //       setUser(null)
+  //       return
+  //     }
       
-      console.log(result)
-      result.data.createdAt = formatDate(result.data.createdAt)
-      setUser(result.data)
-    }
+  //     console.log(result)
+  //     result.data.createdAt = formatDate(result.data.createdAt)
+  //     setUser(result.data)
+  //   }
     
-    getUserProfile()
-    setIsFetching(false)
-  }, [navigate])
+  //   getUserProfile()
+  //   setIsFetching(false)
+  // }, [navigate])
 
   return (
     <>
         <Header />
         <main>
             <SideMenu />
-            <Outlet />
+            <div className="content">
+              <Outlet />
+            </div>
         </main>
     </>
   )

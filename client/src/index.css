@@ -1,38 +1,96 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-/* header */
 header {
-    height: 10vh;
-    background-color: rgb(183, 49, 0);
-}
-
-header .navigate {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    height: 10vh;
+    background: linear-gradient(135deg, rgba(155, 49, 0, 1) 0%, rgba(255, 165, 0, 1) 100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.navigate ul {
+.logo img {
+    height: 40px;
+}
+
+.site-title {
+    cursor: pointer;
+    font-size: 3em;
+    margin: 0 20px;
+    color: #fefbd8;
+    transition: transform 0.3s;
+}
+
+.site-title:hover {
+    transform: scale(1.05);
+}
+
+.auth-links ul {
+    list-style: none;
     display: flex;
+}
+
+.auth-links li {
+    margin-left: 20px;
+}
+
+.auth-links a {
+    text-decoration: none;
+    color: #fefbd8;
+    font-weight: 500;
+    font-size: 1.2em;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    background-color: rgba(94, 25, 0, 0.725);
+}
+
+.auth-links a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.profile-link a {
+    font-size: 1.8rem;
+    color: #fefbd8;
+}
+
+/* side menu */
+.side-menu {
+    width: 7vw;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, rgba(255, 165, 0, 1) 0%, rgba(155, 49, 0, 1) 100%);
+    display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 1em;
-    list-style: none;
+    padding-top: 1.5rem;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.nav-btns {
-    margin-left: auto;
+.menu-links {
+    text-decoration: none;
+    color: #fefbd8;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    align-items: center; 
 }
 
-.nav-btns button {
-    height: 2rem;
-    width: 5rem;
-    margin: .5rem;
+.menu-links:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
-#logo {
-    width: 50px;
+.menu-links.active {
+    background-color: rgba(94, 25, 0, 0.725);
+    color: #FFEB3B;
+    box-shadow: 0 0 10px rgba(255, 235, 59, 0.5); 
 }
 
 /* main */
@@ -41,49 +99,8 @@ main {
     height: 90vh;
 }
 
-.home {
-    width: 83%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: x-large;
-}
-
-.error-page {
-    width: 83%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: x-large;
-}
-
-.loading-container {
-    margin: auto;
-    height: 40%;
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.loading-container h1 {
-    font-size: xx-large;
-}
-
-.profile-name {
-    margin-left: auto;
-    margin-right: 3rem;
-}
-
-.profile-name button {
-    height: 2.5rem;
-    width: 6rem;
-    font-size: large;
-    border: none;
-    background-color: rgb(105, 28, 0);
-    color: rgb(1, 130, 130);
+.content {
+    height: 90vh;
+    width: 93vw;
+    background-color: blue;
 }
