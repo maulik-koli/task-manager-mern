@@ -10,12 +10,14 @@ import ProfilePage from './pages/ProfilePage'
 import ShowProfilePage from './pages/ShowProfilePage'
 import EditProfilePage from './pages/EditProfilePage'
 
+import ProtectedRoute from './components/ProtectedRoute'
 import { UserProvider } from './contexts/UserProvider'
+import { ErrorAndFetchingProvider } from './contexts/ErrorAndFetchingProvider'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RootLayout />,
+    element: <ProtectedRoute><RootLayout /></ProtectedRoute>,
     errorElement: <ErrorPage />,
     children: [
       {index: true, element: <HomePage />},
@@ -23,7 +25,7 @@ const router = createBrowserRouter([
       {path: 'login', element: <LogInPage />},
       {
         path: 'profile',
-        element: <ProfilePage />,
+        element: <ProtectedRoute><ProfilePage /></ProtectedRoute>,
         children: [
           {index: true, element: <ShowProfilePage />},
           {path: 'edit-profile', element: <EditProfilePage />}
@@ -35,9 +37,11 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <UserProvider>
-      <RouterProvider router={router} />
-    </UserProvider>
+    <ErrorAndFetchingProvider>
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
+    </ErrorAndFetchingProvider>
   )
 }
 

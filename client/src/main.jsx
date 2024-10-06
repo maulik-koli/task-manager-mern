@@ -3,12 +3,8 @@ import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 
-import { ErrorAndFetchingProvider } from './contexts/ErrorAndFetchingProvider.jsx'
-
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ErrorAndFetchingProvider>
       <App />
-    </ErrorAndFetchingProvider>
   </StrictMode>,
 )
