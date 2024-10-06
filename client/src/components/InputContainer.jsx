@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 
-const InputContainer = ({lable, ...props}) => {
+const InputContainer = forwardRef(({lable, className, ...props}, ref) => {
   return (
-    <div {...props}>
+    <div className={className}>
         <input 
-            {...props}
-            placeholder={`Enter ${lable}`} 
+          ref={ref}
+          {...props}
+          placeholder={`Enter ${lable}`} 
         />
         <label>{lable}</label>
     </div>
   )
-}
+})
 
 export default InputContainer

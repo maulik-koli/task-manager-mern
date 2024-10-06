@@ -5,30 +5,231 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: skyblue;
-
+    background-color: #FEFBD8;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .profCon {
-    height: 85%;
-    width: 85%;
-    background-color: crimson;
+    height: 80%;
+    width: 80%;
+    background-color: #FFA500;
+    border-radius: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.profConA {
+    width: 100%;
+    height: 50%;
+    background-color: #9B3100;
     display: flex;
+    padding: 1rem;
+    box-sizing: border-box;
+    color: #FEFBD8;
+}
+
+.profConB {
+    width: 100%;
+    height: 50%;
+    background-color: #FFA500;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .profImg {
-    background-color: antiquewhite;
+    background-color: #FFF;
+    color: black;
+    border-radius: 1rem;
     width: 30%;
-    height: 35%;
+    height: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .profDet {
-    background-color: brown;
+    background-color: transparent;
     width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+    padding-left: 1rem;
+    padding-top: 2rem;
+    box-sizing: border-box;
+    color: #ff9d00;
+}
+
+.profDet h1 {
+    font-size: 4rem;
+    color: #FEFBD8;
+}
+
+.profDet p {
+    font-size: 1.8rem;
+    color: #FEFBD8;
+}
+
+#date {
+    font-size: 1.5rem;
+    opacity: 0.6;
+    color: #FEFBD8;
+}
+
+.profModif {
+    background-color: #FFE4B5;
+    width: 70%;
+    height: 3rem;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    border-radius: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 0.5rem;
+}
+
+.profModif a {
+    font-size: 1.4rem;
+    text-decoration: none;
+    margin-left: 1.5rem;
+    text-align: center;
+    background-color: #FFB74D;
+    border-radius: 1rem;
+    width: 8rem;
+    color: #5E2D00;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.profModif a:hover {
+    background-color: #FFA500;
+    color: #FFF;
+}
+
+.profModif p {
+    margin-left: auto;
+    margin-right: 1.5rem;
+    font-size: 1.1rem;
+    opacity: .7;
+    color: #5E2D00;
+}
+
+.profModif button {
+    font-size: 1.2rem;
+    margin-left: 1rem;
+    width: 9rem;
+    height: 2rem;
+    border-radius: 1rem;
+    border: none;
+    background-color: #FFB74D;
+    color: #5E2D00;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.profModif button:hover {
+    background-color: #FFA500;
+    color: #FEFBD8;
+}
+
+
+/* edit profile */
+.editCon {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.editConZ {
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #9B3100;
+    color: #FEFBD8;
+}
+
+.editConA {
+    background-color: #FFA500;
+    font-size: 1.5rem;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.editConB {
+    background-color: #FFA500;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.changeCon {
+    display: flex;
+    gap: 1rem;
+}
+
+.changeCon p {
+    width: 15rem;
+    color: #5E2D00;
+}
+
+.editInput {
     display: flex;
     flex-direction: column;
 }
 
-.profDet p {
-    background-color: blue;
+.editInput input {
+    height: 2.5rem;
+    width: 25rem;
+    border-radius: 1rem;
+    border: 1px solid #5E2D00;
+    padding: 0.5rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.editInput input:focus {
+    border-color: #FFB74D;
+    box-shadow: 0 0 5px rgba(76, 49, 9, 0.788);
+    outline: none;
+}
+
+.editBtns {
+    display: flex;
+    gap: 1rem;
+}
+
+.editBtns button {
+    height: 2.5rem;
+    width: 8rem;
+    border-radius: 1rem;
+    border: none;
+    background-color: #5E2D00;
+    color: #FEFBD8;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.editBtns button:hover {
+    background-color: #9B3100;
+    color: #FFA500;
+}
+
+.editIconWrapper {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    transition: transform 0.2s ease;
+}
+
+.editIconWrapper:hover {
+    transform: scale(1.1);
+    color: #FFB74D;
 }
