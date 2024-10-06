@@ -1,21 +1,28 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useContext } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import InputContainer from '../components/InputContainer';
 
+import { useUser } from '../hooks/useUser';
 import { editUser } from '../api/userApi';
+import { ErrorAndFetchingContext } from '../contexts/ErrorAndFetchingProvider';
 
 import EditIcon from '@mui/icons-material/Edit';
 import classes from '../stlyes/Profile.module.css'
+import AlertMessage from '../components/AlertMessage';
 const { profCon, changeCon, editConA, editConB, editCon, editConZ, editInput, editBtns, editIconWrapper } = classes
 
-
 const EditProfilePage = () => {
+  const { fetchUser } = useUser()
+  const { errorMessage, setErrorMessage } = useContext(ErrorAndFetchingContext)
   const [inputConState, setInputConState] = useState(null)
 
   const nameIp = useRef(null)
   const emailIp = useRef(null)
   const passwordIp = useRef(null)
   const confirmPasswordIp = useRef(null)
+
+  const navigate = useNavigate()
 
   const handleEditIcon = (lable, type, name) => {
     if (name === "password") {
@@ -57,26 +64,42 @@ const EditProfilePage = () => {
   const handleSubmitData = async () => {
     const sendData = {};
 
-    if (nameIp.current) sendData.name = nameIp.current.value
-    if (emailIp.current) sendData.email = emailIp.current.value
-    if (passwordIp.current && confirmPasswordIp.current) {
+    try{ 
+      if (nameIp.current) sendData.name = nameIp.current.value
+      if (emailIp.current) sendData.email = emailIp.current.value
+      if (passwordIp.current && confirmPasswordIp.current) {
       if( passwordIp.current.value === confirmPasswordIp.current.value){
         sendData.password = passwordIp.current.value;
       }
       else{
-        // set error message here
+        throw new Error('Password do not match!')
       }
     }
-      
-    console.log(sendData);
-    const url = "http://localhost:3000/users/me"
-    const result = await editUser(url, sendData)
-    console.log(result)
-    // setInputConState(null);
+
+      console.log(sendData);
+
+      const BASE_URL = "me"
+      const result = await editUser(BASE_URL, sendData)
+      if(result.error){
+        throw new Error(result.error || "Something went wrong.")
+      }
+
+      console.log(result)
+      await fetchUser()
+      setErrorMessage(null)
+      navigate('..')
+    }
+    catch(e){
+      setErrorMessage(e.message)
+    }
+    finally{
+      // setInputConState(null);
+    }
   };
 
   return (
     <div className={profCon}>
+      {errorMessage && <AlertMessage />}
       <div className={editCon}>
         <div className={editConZ}><h1>Edit Profile</h1></div>
           <div className={editConA}>
@@ -99,10 +122,9 @@ const EditProfilePage = () => {
               </div>
             </div>
           </div>
-          <p>Error message will be here</p>
           <div className={editConB}>
             {inputConState}
-            {inputConState && 
+            {(inputConState)  && 
               <div className={editBtns}>
                 <button type='button' onClick={handleSubmitData}>Submit</button>
                 <button type='button'>Cancle</button>

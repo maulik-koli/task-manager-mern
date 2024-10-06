@@ -1,8 +1,12 @@
 import { setCookie, getCookie } from "../utils/fuctions";
 
+const url = "http://localhost:3000/users/"
+
 export const sigupLoginUser = async (BASE_URL, reqData) => {
+    const routeUrl = url + BASE_URL
+
     try {
-        const response = await fetch(BASE_URL, {
+        const response = await fetch(routeUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,10 +30,11 @@ export const sigupLoginUser = async (BASE_URL, reqData) => {
 };
 
 export const userProfile = async (BASE_URL) => {
+    const routeUrl = url + BASE_URL
     const token = getCookie('authToken')
 
     try{
-        const response = await fetch(BASE_URL, {
+        const response = await fetch(routeUrl, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,10 +57,11 @@ export const userProfile = async (BASE_URL) => {
 }
 
 export const editUser = async (BASE_URL, reqData) => {
+    const routeUrl = url + BASE_URL
     const token = getCookie('authToken')
 
     try {
-        const response = await fetch(BASE_URL, {
+        const response = await fetch(routeUrl, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

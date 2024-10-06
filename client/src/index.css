@@ -33,6 +33,7 @@ header {
 .auth-links ul {
     list-style: none;
     display: flex;
+    width: 12rem;
 }
 
 .auth-links li {
@@ -103,4 +104,44 @@ main {
     height: 90vh;
     width: 93vw;
     background-color: blue;
+}
+
+.loading-container {
+    height: 100%;
+    width: 100%;
+    background-color: #FFA500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+}
+
+.alertMessage {
+    position: fixed; /* Fixed position to stay in view */
+    top: 20px; /* Distance from the top */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust centering */
+    background-color: rgba(255, 255, 0, 0.9); /* Semi-transparent background */
+    color: #5E2D00; /* Text color */
+    padding: 1rem; /* Spacing around text */
+    border-radius: 0.5rem; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+    z-index: 1000; /* High z-index to ensure it's on top */
+    font-size: 1.2rem; /* Font size */
+    text-align: center; /* Centered text */
+    transition: opacity 0.3s ease; /* Smooth transition for visibility */
+}
+
+.closeButton {
+    margin-top: 10px; /* Space above the button */
+    background-color: #5E2D00; /* Button background */
+    color: #FEFBD8; /* Button text color */
+    border: none;
+    border-radius: 0.3rem;
+    padding: 0.5rem 1rem; /* Button padding */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.closeButton:hover {
+    background-color: #9B3100; /* Darker color on hover */
 }

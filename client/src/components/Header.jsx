@@ -1,12 +1,11 @@
-import React, { useContext, useState } from "react";
-
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../contexts/UserProvider";
 
+import { useUser } from "../hooks/useUser";
 import tempLogo from "/header-logo.png";
 
 const Header = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useUser()
   const [authLinksState, setAuthLinksState] = useState(true)
 
   return (
@@ -27,7 +26,7 @@ const Header = () => {
             </li>
           </> :
           <li className="profile-link">
-            <Link to="/profile"  >Username</Link>
+            <Link to="/profile"  >{user.name}</Link>
           </li>}
         </ul>
       </div>
