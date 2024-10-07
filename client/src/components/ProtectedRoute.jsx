@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }) => {
     }
 
     if(!user || userError){
-        return <Navigate to='/login' replace />
+        return <Navigate to='/auth/login' replace />
     }
 
     return ( children )

@@ -2,26 +2,27 @@ import { createContext, useEffect, useState } from "react";
 
 import { userProfile } from "../api/userApi";
 import { formatDate } from "../utils/fuctions";
+import { userLoader } from "../api/loaders";
 
 export const UserContext = createContext()
 
 export const UserProvider = ({ children }) => {
+    const { data } = userLoader()
     const [user, setUser] = useState(null)
     const [userErrorAndLoading, setUserErrorAndLoading] = useState({
         error: null,
         loading: true
     })
-    let navigatePath = '/'
 
     const fetchUser = async () => {
         setUserErrorAndLoading({ error: null, loading: true });
         try{
-            const url = "me"
-            const result = await userProfile(url)
+            const result = await userProfile("me")
 
             if(result.status === 401){
                 throw new Error(result.error || "Please Authorized")
             }
+
             console.log(result)
             result.data.createdAt = formatDate(result.data.createdAt)
             result.data.updatedAt = formatDate(result.data.updatedAt)
@@ -33,7 +34,6 @@ export const UserProvider = ({ children }) => {
                 ...prevState,
                 error: e.message
             }))
-            navigatePath = './login'
         }
         finally{
             setUserErrorAndLoading((prevState) => ({
@@ -44,8 +44,15 @@ export const UserProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        fetchUser()
-    }, [])
+        if(data){
+            setUser(data)
+            setUserErrorAndLoading((prevState) => ({
+                ...prevState,
+                loading: false
+            }))
+        }
+    }, [userLoader])
+
     
     return (
         <UserContext.Provider value={{ 
@@ -53,7 +60,6 @@ export const UserProvider = ({ children }) => {
             userError: userErrorAndLoading.error,
             userLoading: userErrorAndLoading.loading,
             setUserErrorAndLoading,
-            navigatePath,
             fetchUser
         }}>
             {children}

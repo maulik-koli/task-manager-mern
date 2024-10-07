@@ -83,3 +83,57 @@ export const editUser = async (BASE_URL, reqData) => {
         return { status: 500, error: 'Internal server error' }; 
     }
 }
+
+export const logoutUser = async (BASE_URL) => {
+    const routeUrl = url + BASE_URL
+    const token = getCookie('authToken')
+
+    try {
+        const response = await fetch(routeUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            return { status: response.status, error: errorData.message || 'Something went wrong' };
+        }
+        
+        const responseData = await response.json();
+        return { status: response.status, data: responseData };
+    } 
+    catch(e) {
+        console.log(e.message);
+        return { status: 500, error: 'Internal server error' }; 
+    }
+};
+
+export const deleteUser = async (BASE_URL) => {
+    const routeUrl = url + BASE_URL
+    const token = getCookie('authToken')
+
+    try {
+        const response = await fetch(routeUrl, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            return { status: response.status, error: errorData.message || 'Something went wrong' };
+        }
+        
+        const responseData = await response.json();
+        return { status: response.status, data: responseData };
+    } 
+    catch(e) {
+        console.log(e.message);
+        return { status: 500, error: 'Internal server error' }; 
+    }
+};
