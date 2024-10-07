@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import Loading from '../components/Loading.jsx'
 import InputContainer from '../components/InputContainer.jsx'
+import AlertMessage from '../components/AlertMessage.jsx';
 
+import { ErrorAndFetchingContext } from '../contexts/ErrorAndFetchingProvider';
 import { sigupLoginUser } from '../api/userApi.js'
 import { isValidPassword } from '../utils/fuctions.js'
 
@@ -12,7 +13,8 @@ import classes from '../stlyes/SignUpLogIn.module.css'
 
 
 const SignUpPage = () => {
-    const [isInputValid, setIsInputValid] = useState(<h4>Already has acoount <Link to="/login" relative='path'>Log In</Link></h4>)
+    const { responseMessage, setResponseMessage } = useContext(ErrorAndFetchingContext)
+    const [isInputValid, setIsInputValid] = useState(<h4>Already has acoount <Link to="/auth/login" relative='path'>Log In</Link></h4>)
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -38,16 +40,19 @@ const SignUpPage = () => {
         const result = await sigupLoginUser(BASE_URL, data)
 
         if(result.error) {
-            console.log(result.error)
+            setResponseMessage(result.error)
             return
         }
 
         console.log(result)
+        setResponseMessage('You have succefully sign up.')
+        event.target.reset();
         setIsInputValid(<></>)
     }
 
     return (
         <div className={container} >
+            {responseMessage && <AlertMessage path='/' />}
             <div className={signUp}>
                 <h1>Sign Up</h1>
                 <form onSubmit={handleSubmit}>

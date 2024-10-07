@@ -4,11 +4,9 @@ import { Outlet } from 'react-router-dom'
 import Header from '../components/Header'
 import SideMenu from '../components/SideMenu'
 
-import { UserContext } from '../contexts/UserProvider'
 import { ErrorAndFetchingContext } from '../contexts/ErrorAndFetchingProvider'
 
-const RootLayout = () => {
-  const { user } = useContext(UserContext)
+const AuthLayout = () => {
   const { setResponseMessage } = useContext(ErrorAndFetchingContext)
 
   useEffect(() => {
@@ -17,7 +15,7 @@ const RootLayout = () => {
 
   return (
     <>  
-      <Header user={user} />
+      <Header />
       <main>
           <SideMenu />
           <div className="content">
@@ -28,4 +26,4 @@ const RootLayout = () => {
   )
 }
 
-export default RootLayout
+export default AuthLayout

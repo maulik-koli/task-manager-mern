@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 import InputContainer from '../components/InputContainer';
 
-import { useUser } from '../hooks/useUser';
+import { UserContext } from '../contexts/UserProvider';
 import { editUser } from '../api/userApi';
 import { ErrorAndFetchingContext } from '../contexts/ErrorAndFetchingProvider';
+import { isValidPassword } from '../utils/fuctions';
 
 import EditIcon from '@mui/icons-material/Edit';
 import classes from '../stlyes/Profile.module.css'
@@ -13,8 +14,8 @@ import AlertMessage from '../components/AlertMessage';
 const { profCon, changeCon, editConA, editConB, editCon, editConZ, editInput, editBtns, editIconWrapper } = classes
 
 const EditProfilePage = () => {
-  const { fetchUser } = useUser()
-  const { errorMessage, setErrorMessage } = useContext(ErrorAndFetchingContext)
+  const { fetchUser } = useContext(UserContext)
+  const { responseMessage, setResponseMessage } = useContext(ErrorAndFetchingContext)
   const [inputConState, setInputConState] = useState(null)
 
   const nameIp = useRef(null)
@@ -68,16 +69,21 @@ const EditProfilePage = () => {
       if (nameIp.current) sendData.name = nameIp.current.value
       if (emailIp.current) sendData.email = emailIp.current.value
       if (passwordIp.current && confirmPasswordIp.current) {
-      if( passwordIp.current.value === confirmPasswordIp.current.value){
-        sendData.password = passwordIp.current.value;
+        if ( passwordIp.current.value !== confirmPasswordIp.current.value) {
+          throw new Error('Password do not match!')
+        }
+        else if (!isValidPassword(passwordIp.current.value)) {
+          throw new Error("Passwrod must have minimum 8 length.\nPasswrod must have atleast one number.\nPasswrod must have arleast one special character.")
+        }
+        else{
+          sendData.password = passwordIp.current.value;
+        }
       }
-      else{
-        throw new Error('Password do not match!')
+
+      if(Object.keys(sendData).length === 0){
+        throw new Error("Please enter value to update.")
       }
-    }
-
-      console.log(sendData);
-
+      
       const BASE_URL = "me"
       const result = await editUser(BASE_URL, sendData)
       if(result.error){
@@ -86,20 +92,17 @@ const EditProfilePage = () => {
 
       console.log(result)
       await fetchUser()
-      setErrorMessage(null)
+      setResponseMessage(null)
       navigate('..')
     }
     catch(e){
-      setErrorMessage(e.message)
-    }
-    finally{
-      // setInputConState(null);
+      setResponseMessage(e.message)
     }
   };
 
   return (
     <div className={profCon}>
-      {errorMessage && <AlertMessage />}
+      {responseMessage && <AlertMessage />}
       <div className={editCon}>
         <div className={editConZ}><h1>Edit Profile</h1></div>
           <div className={editConA}>
