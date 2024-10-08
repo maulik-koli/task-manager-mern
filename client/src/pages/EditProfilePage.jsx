@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 
 import InputContainer from '../components/InputContainer';
+import AlertMessage from '../components/AlertMessage';
 
 import { UserContext } from '../contexts/UserProvider';
 import { editUser } from '../api/userApi';
@@ -10,8 +11,7 @@ import { isValidPassword } from '../utils/fuctions';
 
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import classes from '../stlyes/Profile.module.css'
-import AlertMessage from '../components/AlertMessage';
+import classes from '../styles/Profile.module.css'
 const { profCon, changeCon, editConA, editConB, editCon, editConZ, editInput, editBtns, editIconWrapper } = classes
 
 const EditProfilePage = () => {

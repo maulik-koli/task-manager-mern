@@ -16,7 +16,13 @@ export const sigupLoginUser = async (BASE_URL, reqData) => {
 
         if (!response.ok) {
             const errorData = await response.json();
-            return { status: response.status, error: errorData.message || 'Something went wrong' };
+            console.log(errorData, response.status)
+            if(response.status !== 500){
+                return { status: response.status, error: errorData.message || 'Unable to login.' };
+            }
+            else{
+                return { status: response.status, error: 'Unable to login.' };
+            }
         }
         
         const responseData = await response.json();

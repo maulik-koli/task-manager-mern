@@ -1,6 +1,6 @@
 import React from 'react'
 
-import classes from '../stlyes/Home.module.css'
+import classes from '../styles/Home.module.css'
 
 const { homeText } = classes
 
