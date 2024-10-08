@@ -2,17 +2,18 @@ import React, { useContext } from 'react'
 import { Navigate } from 'react-router-dom'
 
 import { UserContext } from '../contexts/UserProvider'
-import Loading from './Loading'
 
 const ProtectedRoute = ({ children }) => {
-    const { user, userError, userLoading } = useContext(UserContext)
+    const { user, userLoading } = useContext(UserContext);
 
-    if(userLoading) {
-        return <Loading />
+    // While loading user data, you can show a loader or placeholder
+    if (userLoading) {
+        return <div>Loading...</div>; // Or a spinner, etc.
     }
 
-    if(!user || userError){
-        return <Navigate to='/auth/login' replace />
+    // If user is not authenticated, redirect to login
+    if (!user) {
+        return <Navigate to='/auth/login' replace />;
     }
 
     return ( children )

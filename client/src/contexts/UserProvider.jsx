@@ -1,65 +1,49 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 import { userProfile } from "../api/userApi";
 import { formatDate } from "../utils/fuctions";
-import { userLoader } from "../api/loaders";
 
 export const UserContext = createContext()
 
 export const UserProvider = ({ children }) => {
-    const { data } = userLoader()
     const [user, setUser] = useState(null)
-    const [userErrorAndLoading, setUserErrorAndLoading] = useState({
-        error: null,
-        loading: true
-    })
+    const [userError, setUserError] = useState(null)
+    const [userLoading, setUserLoading] = useState(false)
 
     const fetchUser = async () => {
-        setUserErrorAndLoading({ error: null, loading: true });
-        try{
-            const result = await userProfile("me")
+        setUserLoading(true);
+        try {
+            const result = await userProfile("me");
 
-            if(result.status === 401){
-                throw new Error(result.error || "Please Authorized")
+            if (result.status === 401) {
+                throw new Error(result.error || "Please Authorize");
             }
 
-            console.log(result)
-            result.data.createdAt = formatDate(result.data.createdAt)
-            result.data.updatedAt = formatDate(result.data.updatedAt)
-            setUser(result.data || null)
+            result.data.createdAt = formatDate(result.data.createdAt);
+            result.data.updatedAt = formatDate(result.data.updatedAt);
+            setUser(result.data);
+        } catch (e) {
+            console.log("Error fetching user data", e.message);
+            setUserError(e.message);
+            setUser(null); // Ensure user is null on error
+        } finally {
+            setUserLoading(false); // Update loading state
         }
-        catch(e){
-            console.log("--->" ,e.message)
-            setUserErrorAndLoading((prevState) => ({
-                ...prevState,
-                error: e.message
-            }))
-        }
-        finally{
-            setUserErrorAndLoading((prevState) => ({
-                ...prevState,
-                loading: false
-            }))
-        }
-    }
+    };
 
     useEffect(() => {
-        if(data){
-            setUser(data)
-            setUserErrorAndLoading((prevState) => ({
-                ...prevState,
-                loading: false
-            }))
-        }
-    }, [userLoader])
+        fetchUser();
+    }, []);
 
     
     return (
         <UserContext.Provider value={{ 
             user,
-            userError: userErrorAndLoading.error,
-            userLoading: userErrorAndLoading.loading,
-            setUserErrorAndLoading,
+            setUser,
+            userError,
+            userLoading,
+            setUserError,
+            setUserLoading,
             fetchUser
         }}>
             {children}

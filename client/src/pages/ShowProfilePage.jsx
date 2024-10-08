@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useRef, useState, useCallback, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import Modal from '../components/Modal'
@@ -11,58 +11,55 @@ const { profCon, profImg, profDet, date, profModif, profConA, profConB } = class
 
 
 const ShowProfilePage = () => {
-  const { user } = useContext(UserContext)
-  const modalRef = useRef()
-  const [modalType, setModalType] = useState(null);
-
+  const { user, setUser } = useContext(UserContext)
+  const modalRef = useRef(null)
+  const [modalType, setModalType] = useState({ title: '', message: '', confirmOperation: null });
+  
   const navigate = useNavigate()
 
   const openModal = (type) => {
-    setModalType(type);
-    modalRef.current.show();
+      let title, message, confirmOperation;
+
+      if (type === 'logout') {
+          title = "Log Out";
+          message = "Are you sure you want to log out?";
+          confirmOperation = async () => {
+              const response = await logoutUser('logout');
+              if (!response.error) {
+                  setUser(null);
+                  navigate('/auth/login');
+              }
+          };
+      } else if (type === 'logoutAll') {
+          title = "Log Out of All Devices";
+          message = "Are you sure you want to log out of all devices?";
+          confirmOperation = async () => {
+            const response = await logoutUser('logoutAll');
+            if (!response.error) {
+              setUser(null);
+              navigate('/auth/login');
+            }
+          };
+      } else if (type === 'delete') {
+          title = "Delete Account";
+          message = "Are you sure you want to delete your account?";
+          confirmOperation = async () => {
+            const response = await deleteUser('me');
+              if (!response.error) {
+                setUser(null);
+                navigate('/auth/login');
+              }
+          };
+      }
+
+      setModalType({ title, message, confirmOperation });
+      modalRef.current.show();
   };
 
   const closeModal = () => {
-      setModalType(null);
+      setModalType({ title: '', message: '', confirmOperation: null });
       modalRef.current.close();
   };
-
-  const getModalContent = () => {
-    switch (modalType) {
-        case 'logout':
-            return { 
-              title: "Log Out",
-              message: "Are you sure you want to log out?",
-              confirmOperation: async () => {
-                await logoutUser()
-                navigate('/auth/login')
-              }
-            };
-        case 'logoutAll':
-            return { 
-              title: "Log Out of All Devices",
-              message: "Are you sure you want to log out of all devices?",
-              confirmOperation: async () => {
-                await logoutUser()
-                navigate('/auth/login')
-              }
-            };
-        case 'delete':
-            return {
-              title: "Delete Account",
-              message: "Are you sure you want to delete your account?",
-              confirmOperation: async () => {
-                await deleteUser('me')
-                navigate('/auth/signin')
-              }
-            };
-        default:
-            return {};
-    }
-  };
-
-  const { title, message, confirmOperation } = getModalContent();
-
 
   console.log("in the show peofile page" , user)
 
@@ -95,11 +92,11 @@ const ShowProfilePage = () => {
           </div>
           <Modal
             ref={modalRef}
-            title={title}
-            message={message}
-            visible={modalType !== null}
+            title={modalType.title}
+            message={modalType.message}
+            visible={modalType.title !== ''}
             onClose={closeModal}
-            confirmOperation={confirmOperation}
+            confirmOperation={modalType.confirmOperation}
           />
         </div>
     </div>
