@@ -1,4 +1,4 @@
-import { setCookie, getCookie } from "../utils/fuctions";
+import { setCookie, getCookie, deleteCookie } from "../utils/fuctions";
 
 const url = "http://localhost:3000/users/"
 
@@ -88,6 +88,8 @@ export const logoutUser = async (BASE_URL) => {
     const routeUrl = url + BASE_URL
     const token = getCookie('authToken')
 
+    console.log('Token:', token)
+    
     try {
         const response = await fetch(routeUrl, {
             method: 'POST',
@@ -96,14 +98,22 @@ export const logoutUser = async (BASE_URL) => {
                 'Authorization': `Bearer ${token}`,
             },
         });
+        
+        console.log(response)
 
         if (!response.ok) {
             const errorData = await response.json();
             return { status: response.status, error: errorData.message || 'Something went wrong' };
         }
-        
+
+        if (response.status === 204) {
+            deleteCookie('authToken');
+            return { status: 204 }; // Indicate successful logout
+        }
+
         const responseData = await response.json();
-        return { status: response.status, data: responseData };
+        deleteCookie('authToken')
+        return { status: responseData.status };
     } 
     catch(e) {
         console.log(e.message);

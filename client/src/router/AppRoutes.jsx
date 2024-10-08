@@ -4,15 +4,16 @@ import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import RootLayout from "../pages/RootLayout";
 import ErrorPage from '../pages/ErrorPage';
 import HomePage from '../pages/HomePage';
-import SignUpPage from '../pages/SignUpPage';
-import LogInPage from '../pages/LogInPage';
 import ProfilePage from '../pages/ProfilePage';
 import ShowProfilePage from '../pages/ShowProfilePage';
 import EditProfilePage from '../pages/EditProfilePage';
 import ProtectedRoute from '../components/ProtectedRoute';
+import AuthLayout from '../pages/AuthLayout';
+import SignUpPage from '../pages/SignUpPage';
+import LogInPage from '../pages/LogInPage';
 
 import { userLoader } from '../api/loaders';
-import AuthLayout from '../pages/AuthLayout';
+import { setCookie, getCookie, deleteCookie } from '../utils/fuctions'
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
     ),
     loader: async () => {
       const result = await userLoader();
+      console.log(result)
       if (result.redirect) {
         return <Navigate to={result.redirect} replace />;
       }
@@ -58,7 +60,13 @@ const router = createBrowserRouter([
 ]);
 
 const AppRoutes = () => {
-  return <RouterProvider router={router} />;
+  // setCookie('authToken', "333333333333333333eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzA0MWEyZTgyMmZkYTQwYTUwMjljNTUiLCJpYXQiOjE3MjgzNTMwNzIsImV4cCI6MTcyODUyNTg3Mn0.hezFCj2-HWZFzb1tf_xwfH2m04qeeFnxUWo378Q6NAE", 2)
+  // const token = getCookie('authToken')
+  // console.log(token)
+  // deleteCookie('authToken')
+  // const token1 = getCookie('authToken')
+  // console.log(token1)
+  return <RouterProvider router={router} />
 };
 
 export default AppRoutes;

@@ -64,9 +64,10 @@ router.post('/logout', auth, async (req, res) => {
     try{
         user.tokens = user.tokens.filter((token) => token.token !== req.token)
         await user.save()
-        res.send()
+        res.status(204).send()
     }
     catch(e){
+        console.error('Error during logout:', e);
         res.status(500).send()
     }
 })
@@ -77,9 +78,10 @@ router.post('/logoutAll', auth, async (req, res) => {
     try{
         user.tokens = []
         await user.save()
-        res.send()
+        res.status(204).send()
     }
     catch(e){
+        console.error('Error during logout:', e);
         res.status(500).send()
     }
 })

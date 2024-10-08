@@ -8,13 +8,11 @@ const Modal = forwardRef(({ title, message, visible, onClose, confirmOperation }
         show: () => {
             if (dialogRef.current) {
                 dialogRef.current.showModal();
-                backdropRef.current.classList.add('visible'); // Add visible class
             }
         },
         close: () => {
             if (dialogRef.current) {
                 dialogRef.current.close();
-                backdropRef.current.classList.remove('visible'); // Remove visible class
             }
         },
     }));

@@ -148,6 +148,15 @@
     align-items: center;
     background-color: #9B3100;
     color: #FEFBD8;
+    gap: 1rem;
+}
+
+.editConZ a {
+    color: black;
+}
+
+.editConZ a:hover {
+    color: white;
 }
 
 

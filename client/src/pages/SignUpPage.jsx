@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import InputContainer from '../components/InputContainer.jsx'
 import AlertMessage from '../components/AlertMessage.jsx';
 
+import { UserContext } from '../contexts/UserProvider.jsx';
 import { ErrorAndFetchingContext } from '../contexts/ErrorAndFetchingProvider';
 import { sigupLoginUser } from '../api/userApi.js'
 import { isValidPassword } from '../utils/fuctions.js'
@@ -13,8 +14,9 @@ import classes from '../stlyes/SignUpLogIn.module.css'
 
 
 const SignUpPage = () => {
+    const { fetchUser } = useContext(UserContext)
     const { responseMessage, setResponseMessage } = useContext(ErrorAndFetchingContext)
-    const [isInputValid, setIsInputValid] = useState(<h4>Already has acoount <Link to="/auth/login" relative='path'>Log In</Link></h4>)
+    const [isInputValid, setIsInputValid] = useState(<h4>Already has acoount? <Link to="/auth/login" relative='path'>Log In</Link></h4>)
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -36,15 +38,15 @@ const SignUpPage = () => {
         }
 
         delete data["confirm-password"]
-        const BASE_URL = ""
-        const result = await sigupLoginUser(BASE_URL, data)
+        const result = await sigupLoginUser("", data)
 
         if(result.error) {
             setResponseMessage(result.error)
             return
         }
 
-        console.log(result)
+        console.log("in sign in", result)
+        await fetchUser()
         setResponseMessage('You have succefully sign up.')
         event.target.reset();
         setIsInputValid(<></>)

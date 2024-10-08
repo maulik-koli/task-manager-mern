@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 export const isValidPassword = (password) => {
     if (password.length < 8) {
         return false;
@@ -24,10 +26,16 @@ export const isValidPassword = (password) => {
 }
 
 // set cookie
-export const setCookie = (name, value, days) => {
-    const expires = new Date(Date.now() + days * 864e5).toUTCString();
-    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
-}
+export const setCookie = (name, value, days, path = '/') => {
+    let expires = '';
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 86400000)); // 86400000 ms in a day
+        expires = `; expires=${date.toUTCString()}`;
+    }
+    document.cookie = `${name}=${encodeURIComponent(value)}${expires}; path=${path}`;
+    console.log(`Cookie set: ${name} = ${value}, path: ${path}`);
+};
 
 // return cookie, if no then undefiend
 export const getCookie = (name) => {
@@ -37,7 +45,14 @@ export const getCookie = (name) => {
     if (parts.length === 2) {
         return decodeURIComponent(parts.pop().split(';').shift());
     }
-}
+    console.log(`Cookie "${name}": undefined`);
+    return undefined;
+};
+
+export const deleteCookie = (name, path = '/') => {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=${path}`;
+    console.log(`Cookie deleted: ${name}`);
+};
 
 export const formatDate = (dateString) => {
     const months = [

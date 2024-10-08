@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import InputContainer from '../components/InputContainer';
 
@@ -9,6 +9,7 @@ import { ErrorAndFetchingContext } from '../contexts/ErrorAndFetchingProvider';
 import { isValidPassword } from '../utils/fuctions';
 
 import EditIcon from '@mui/icons-material/Edit';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import classes from '../stlyes/Profile.module.css'
 import AlertMessage from '../components/AlertMessage';
 const { profCon, changeCon, editConA, editConB, editCon, editConZ, editInput, editBtns, editIconWrapper } = classes
@@ -104,7 +105,7 @@ const EditProfilePage = () => {
     <div className={profCon}>
       {responseMessage && <AlertMessage />}
       <div className={editCon}>
-        <div className={editConZ}><h1>Edit Profile</h1></div>
+        <div className={editConZ}><h1>Edit Profile</h1><Link to='..'><ArrowBackIcon /></Link></div>
           <div className={editConA}>
             <div className={changeCon}>
               <p>Change Name</p>
