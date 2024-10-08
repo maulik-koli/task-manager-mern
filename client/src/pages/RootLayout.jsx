@@ -6,8 +6,9 @@ import SideMenu from '../components/SideMenu'
 
 import { UserContext } from '../contexts/UserProvider'
 import { ErrorAndFetchingContext } from '../contexts/ErrorAndFetchingProvider'
+import Loading from '../components/Loading'
 
-const RootLayout = () => {
+const RootLayout = ({ userLoading }) => {
   const { user } = useContext(UserContext)
   const { setResponseMessage } = useContext(ErrorAndFetchingContext)
 
@@ -20,9 +21,10 @@ const RootLayout = () => {
       <Header user={user} />
       <main>
           <SideMenu />
-          <div className="content">
+          {userLoading && <Loading />}
+          {!userLoading && <div className="content">
             <Outlet />
-          </div>
+          </div>}
       </main>
     </>
   )

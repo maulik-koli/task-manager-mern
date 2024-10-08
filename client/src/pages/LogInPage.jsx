@@ -10,7 +10,7 @@ import { sigupLoginUser } from '../api/userApi.js'
 import { isValidPassword } from '../utils/fuctions.js'
 
 const { container, logIn, inputCon, subBtns } = classes
-import classes from '../stlyes/SignUpLogIn.module.css'
+import classes from '../styles/SignUpLogIn.module.css'
 
 
 const LogIn = () => {

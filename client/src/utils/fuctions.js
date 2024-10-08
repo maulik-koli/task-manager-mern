@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 
 export const isValidPassword = (password) => {
     if (password.length < 8) {
