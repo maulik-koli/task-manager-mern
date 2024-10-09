@@ -1,9 +1,12 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 
+import classes from '../styles/Project.module.css'
+const { project } = classes
+
 const ProjectLayout = () => {
   return (
-    <div>
+    <div className={project}>
       <Outlet />
     </div>
   )

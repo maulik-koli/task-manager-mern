@@ -1,0 +1,202 @@
+.project {
+    height: 100%;
+    width: 100%;
+}
+
+.projectHeader {
+    height: 8%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    font-size: xx-large;
+    padding-left: 1rem;
+    background-color: #9B3100;
+    color: #FEFBD8;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.projectHeader a {
+    text-decoration: none;
+    color: #FEFBD8;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.projectHeader a:hover {
+    color: #FFEB3B;
+}
+
+.projectCon {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addProjectCon {
+    background-color: #ffa600ba;
+    height: 80%;
+    width: 85%;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.topBtnsCon {
+    height: 10%;
+    display: flex;
+    align-items: center;
+}
+
+.topBtnsCon div {
+    height: 100%;
+    width: 24%;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.topBtnsCon div button {
+    width: 8rem;
+    font-size: 1.5rem;
+    height: 75%;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #c37500;
+    color: white;
+}
+
+.topBtnsCon div button:hover {
+    background-color: #462d00;
+    transform: scale(1.05);
+}
+
+#redBtns {
+    background-color: #FF4C4C;
+    color: #FFFFFF;
+}
+
+#redBtns:hover {
+    background-color: #FF0000;
+    transform: scale(1.05);
+}
+
+.addProjectConA {
+    height: 45%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-radius: 1rem;
+}
+
+.inputCon {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: .2rem;
+}
+
+.inputCon input {
+    height: 2.5rem;
+    width: 100%;
+    border-radius: 1rem;
+    border: 1px solid #5E2D00;
+    padding: 0.5rem;
+    background-color: #FFF8E1;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.inputCon input:focus {
+    border-color: #FFB74D;
+    box-shadow: 0 0 5px rgba(76, 49, 9, 0.788);
+    outline: none;
+}
+
+.addProjectConA .textareaCon {
+    height: 9rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.addProjectConA .textareaCon textarea {
+    height: 90%;
+    border-radius: 1rem;
+    border: 1px solid #5E2D00;
+    padding: 0.5rem;
+    background-color: #FFF8E1;
+}
+
+.addProjectConB {
+    height: 40%;
+    box-sizing: border-box;
+}
+
+.addProjectConB label {
+    font-size: 1.2rem;
+}
+
+.projectTaskInputs {
+    margin-top: 1rem;
+    background-color: #ffde7c;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
+.projectTaskInputs input {
+    height: 100%;
+    width: 60%;
+    border-radius: 1rem; 
+    border: 1px solid #5E2D00;
+    padding: 0.5rem;
+    background-color: #FFF8E1; /* Soft Cream Color */
+}
+
+.addProjectConB ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: .5rem;
+    gap: .1rem;
+    height: 80%;
+    overflow-y: auto;
+    max-height: 200px;
+    border-radius: 1rem;
+    padding: 0.3rem;
+    background-color: #FFEBA1; /* Lighter Yellow for visibility */
+}
+
+.list {
+    display: flex;
+    width: 100%;
+    background-color: transparent; /* Transparent for list items */
+    border-radius: 1rem;
+    background-color: #ffd249;
+    align-items: center;
+}
+
+.list li {
+    height: 100%;
+    width: 95%; 
+    color: #5E2D00; /* Dark Brown for text */
+    padding: 0.5rem;
+}
+
+/* Icon button styles */
+.projectTaskInputs button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.projectTaskInputs button:hover {
+    transform: scale(1.1);
+}
