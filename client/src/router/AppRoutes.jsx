@@ -12,8 +12,11 @@ import AuthLayout from '../pages/AuthLayout';
 import SignUpPage from '../pages/SignUpPage';
 import LogInPage from '../pages/LogInPage';
 
-import { userLoader } from '../api/loaders';
+import { userLoader, dataLoader } from '../api/loaders';
 import ProjectLayout from '../pages/ProjectLayout';
+import ProjectPage from '../pages/ProjectPage';
+import AddProjectPage from '../pages/AddProjectPage';
+import ReadProjectPage from '../pages/ReadProjectPage';
 
 const router = createBrowserRouter([
   {
@@ -47,12 +50,27 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: 'projects',
+        path: 'project',
         element: (
           <ProtectedRoute>
             <ProjectLayout />
           </ProtectedRoute>
-        )
+        ),
+        children: [
+          { 
+            index: true,
+            element: <ProjectPage />,
+            // loader: async () => {
+            //   const result = await dataLoader('/projects')
+            //   if (result.error) {
+            //     return { error: result.error }
+            //   }
+            //   return result;
+            // },
+          },
+          { path: 'add-project' , element: <AddProjectPage /> },
+          { path: 'read-project' , element: <ReadProjectPage /> },
+        ]
       }
     ],
   },

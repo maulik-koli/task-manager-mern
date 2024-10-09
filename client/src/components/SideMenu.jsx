@@ -11,10 +11,10 @@ const SideMenu = () => {
             <NavLink to='/' className={({ isActive }) => `menu-links ${isActive ? 'active' : ''}`}>
                 <HomeIcon style={{ color: '#FFFFFF', fontSize: '2.3em' }} />
             </NavLink>
-            <NavLink to='/project' className={({ isActive }) => `menu-links ${isActive ? 'active' : ''}`}>
+            <NavLink to='/task' className={({ isActive }) => `menu-links ${isActive ? 'active' : ''}`}>
                 <TaskIcon style={{ color: '#FFFFFF', fontSize: '2.3em' }} />
             </NavLink>
-            <NavLink to='/categorie' className={({ isActive }) => `menu-links ${isActive ? 'active' : ''}`}>
+            <NavLink to='/project' className={({ isActive }) => `menu-links ${isActive ? 'active' : ''}`}>
                 <SourceIcon style={{ color: '#FFFFFF', fontSize: '2.3em' }} />
             </NavLink>
         </div>
