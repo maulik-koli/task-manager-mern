@@ -58,7 +58,7 @@ router.get('/:id', auth, async (req, res) => {
 
 // update project
 router.patch('/:id', auth, async (req, res) => {
-    const {isValid, updates} = checkValid(req.body, ['title', 'description'])
+    const {isValid, updates} = checkValid(req.body, ['title', 'description', 'subtasks'])
 
     if(!isValid){
         return res.status(400).send({ error : "Invalid update!" })

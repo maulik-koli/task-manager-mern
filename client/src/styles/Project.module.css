@@ -156,7 +156,7 @@
     border-radius: 1rem; 
     border: 1px solid #5E2D00;
     padding: 0.5rem;
-    background-color: #FFF8E1; /* Soft Cream Color */
+    background-color: #FFF8E1;
 }
 
 .addProjectConB ul {
@@ -171,13 +171,13 @@
     max-height: 200px;
     border-radius: 1rem;
     padding: 0.3rem;
-    background-color: #FFEBA1; /* Lighter Yellow for visibility */
+    background-color: #FFEBA1;
 }
 
 .list {
     display: flex;
     width: 100%;
-    background-color: transparent; /* Transparent for list items */
+    background-color: transparent;
     border-radius: 1rem;
     background-color: #ffd249;
     align-items: center;
@@ -186,7 +186,7 @@
 .list li {
     height: 100%;
     width: 95%; 
-    color: #5E2D00; /* Dark Brown for text */
+    color: #5E2D00;
     padding: 0.5rem;
 }
 
@@ -199,4 +199,35 @@
 
 .projectTaskInputs button:hover {
     transform: scale(1.1);
+}
+
+.projectGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    overflow-y: auto;
+    max-height: 92%;
+    padding: 1rem;
+}
+
+.projectItem {
+    background-color: #ffd249;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.addProjectCon {
+    background-color: #ffa600ba;
+    height: 80%;
+    width: 85%;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
