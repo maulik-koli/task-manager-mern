@@ -9,7 +9,7 @@ const AddProjectPage = () => {
     <div className={projectCon}>
       <ProjectContainer
         containerClass={addProjectCon}
-        containerButtons='add'
+        containerButtons="add"
       />
     </div>
   )

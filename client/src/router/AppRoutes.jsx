@@ -60,16 +60,13 @@ const router = createBrowserRouter([
           { 
             index: true,
             element: <ProjectPage />,
-            // loader: async () => {
-            //   const result = await dataLoader('/projects')
-            //   if (result.error) {
-            //     return { error: result.error }
-            //   }
-            //   return result;
-            // },
+            loader: () => dataLoader('projects'),
           },
           { path: 'add-project' , element: <AddProjectPage /> },
-          { path: 'read-project' , element: <ReadProjectPage /> },
+          { 
+            path: ':projectId/read-project',
+            element: <ReadProjectPage />,
+          },
         ]
       }
     ],

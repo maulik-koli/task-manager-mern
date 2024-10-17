@@ -63,7 +63,6 @@ export const postData = async (BASE_URL, reqData) => {
 export const updateData = async (BASE_URL, reqData) => {
     const routeUrl = url + BASE_URL
     const token = getCookie('authToken')
-
     try {
         const response = await fetch(routeUrl, {
             method: 'PATCH',
@@ -72,8 +71,8 @@ export const updateData = async (BASE_URL, reqData) => {
                 'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify(reqData),
-        });
-
+        })
+        console.log(response)
         if (!response.ok) {
             const errorData = await response.json();
             return { status: response.status, error: errorData.message || 'Something went wrong' };

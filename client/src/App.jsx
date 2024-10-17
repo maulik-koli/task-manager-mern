@@ -7,13 +7,13 @@ import AppRoutes from './router/AppRoutes'
 
 const App = () => {
   return (
-    <DataProvider>
-      <ErrorAndFetchingProvider>
-        <UserProvider>
-          <AppRoutes />
-        </UserProvider>
-      </ErrorAndFetchingProvider>
-    </DataProvider>
+    <ErrorAndFetchingProvider>
+        <DataProvider>
+          <UserProvider>
+            <AppRoutes />
+          </UserProvider>
+      </DataProvider>
+    </ErrorAndFetchingProvider>
   )
 }
 

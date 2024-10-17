@@ -12,13 +12,13 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import classes from '../styles/Project.module.css'
 const { topBtnsCon, redBtns, addProjectConA, inputCon, addProjectConB, textareaCon, projectTaskInputs, list } = classes
 
-const ProjectContainer = ({ containerClass, containerButtons }) => {
+const ProjectContainer = ({ containerClass, containerButtons , fetchProjectData, handleSave}) => {
     const { responseMessage, setResponseMessage } = useContext(ErrorAndFetchingContext)
-    const { postCreatedData, singleData, isDataLoading } = useContext(DataContext)
-    const [projectData, setProjectData] = useState({ title: "", description: "", subtasks: [] })
+    const { postCreatedData } = useContext(DataContext)
+    const [projectData, setProjectData] = useState(fetchProjectData)
     const projectTaskRef = useRef(null)
 
-    const navigate= useNavigate()
+    const navigate = useNavigate()
 
     const handleAddProjectTask = () => {
         const title = projectTaskRef.current.value.toString()
@@ -34,7 +34,7 @@ const ProjectContainer = ({ containerClass, containerButtons }) => {
         });
     };
 
-    const handleRemoveProject = (task) => {
+    const handleRemoveProjectTask = (task) => {
         const newTasks = projectData.subtasks.filter((proTask) => proTask !== task)
         setProjectData({
             ...projectData,
@@ -59,6 +59,7 @@ const ProjectContainer = ({ containerClass, containerButtons }) => {
         })
     }
 
+
     let topBtns = containerButtons === 'add' ? 
         (
             <>
@@ -68,53 +69,56 @@ const ProjectContainer = ({ containerClass, containerButtons }) => {
         ) : 
         (
             <>
-                <button type='submit' onClick={handleSubmit} >Save</button>
+                <button type='submit' onClick={() => handleSave(projectData)} >Save</button>
                 <button id={redBtns} onClick={handleBackButton}>Back</button>
             </>
         )
 
     return (
-        <div className={containerClass}>
+        <>  
             {responseMessage && <AlertMessage />}
-            <div className={topBtnsCon}>
-                <h1>Create Project</h1>
-                <div>
-                    {topBtns}
+            <div className={containerClass}>
+                <div className={topBtnsCon}>
+                    <h1>Create Project</h1>
+                    <div>
+                        {topBtns}
+                    </div>
+                </div>
+                <div className={addProjectConA}>
+                    <InputContainer
+                        lable='Title'
+                        className={inputCon}
+                        value={projectData.title}
+                        onChange={(e) => setProjectData({...projectData, title: e.target.value.toString() })}
+                        required
+                    />
+                    <div className={textareaCon}>
+                        <label>Discription</label>
+                        <textarea
+                            value={projectData.description}
+                            onChange={(e) => setProjectData({...projectData, description:  e.target.value.toString() })}
+                            placeholder='Project discription (Optinals)'
+                        >
+                        </textarea>
+                    </div>
+                </div>
+                <div className={addProjectConB}>
+                    <div className={projectTaskInputs}>
+                        <input type='text' placeholder="Project's Task (Optinals)" ref={projectTaskRef}/>
+                        <button><AddCircleIcon onClick={handleAddProjectTask} /></button>
+                        <label>Project's Task</label>
+                    </div>
+                    <ul>
+                        {projectData.subtasks.map((proTask, index) => (
+                            <div className={list} key={proTask.title + index}>
+                                <li>{proTask.title}</li>
+                                <RemoveCircleIcon onClick={() => handleRemoveProjectTask(proTask.title)} />
+                            </div>
+                        ))}
+                    </ul>
                 </div>
             </div>
-            <div className={addProjectConA}>
-                <InputContainer
-                    lable='Title'
-                    className={inputCon}
-                    value={projectData.title}
-                    onChange={(e) => setProjectData({...projectData, title: e.target.value.toString() })}
-                    required
-                />
-                <div className={textareaCon}>
-                    <label>Discription</label>
-                    <textarea
-                        value={projectData.description}
-                        onChange={(e) => setProjectData({...projectData, description:  e.target.value.toString() })}
-                        placeholder='Project discription (Optinals)'
-                    ></textarea>
-                </div>
-            </div>
-            <div className={addProjectConB}>
-                <div className={projectTaskInputs}>
-                    <input type='text' placeholder="Project's Task (Optinals) "ref={projectTaskRef} />
-                    <button><AddCircleIcon onClick={handleAddProjectTask} /></button>
-                    <label>Project's Task</label>
-                </div>
-                <ul>
-                    {projectData.subtasks.map((proTask, index) => (
-                        <div className={list} key={proTask.title + index}>
-                            <li>{proTask.title}</li>
-                            <RemoveCircleIcon onClick={() => handleRemoveProject(proTask.title)} />
-                        </div>
-                    ))}
-                </ul>
-            </div>
-        </div>
+        </>
     )
 }
 
