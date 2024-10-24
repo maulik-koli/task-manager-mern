@@ -19,8 +19,8 @@ const Modal = forwardRef(({ title, message, visible, onClose, confirmOperation }
 
     const handleConfirm = async () => {
         if (confirmOperation) {
-            await confirmOperation(); // Await the asynchronous operation
-            onClose(); // Close the modal after the operation is done
+            await confirmOperation();
+            onClose();
         }
     };
 

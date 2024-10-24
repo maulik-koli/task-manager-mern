@@ -1,49 +1,49 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react"
 
-import { userProfile } from "../api/userApi";
-import { formatDate } from "../utils/fuctions";
+import { userProfile } from "../api/userApi"
+import { formatDate } from "../utils/fuctions"
 
 export const UserContext = createContext()
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null)
-    const [userError, setUserError] = useState(null)
+    const [userResponse, setUserResponse] = useState(null)
     const [userLoading, setUserLoading] = useState(false)
 
     const fetchUser = async () => {
         setUserLoading(true);
         try {
-            const result = await userProfile("me");
+            const result = await userProfile("me")
 
             if (result.status === 401) {
-                throw new Error(result.error || "Please Authorize");
+                throw new Error(result.error || "Please Authorize")
             }
 
-            result.data.createdAt = formatDate(result.data.createdAt);
-            result.data.updatedAt = formatDate(result.data.updatedAt);
-            setUser(result.data);
+            result.data.createdAt = formatDate(result.data.createdAt)
+            result.data.updatedAt = formatDate(result.data.updatedAt)
+            setUser(result.data)
         } catch (e) {
-            console.log("Error fetching user data", e.message);
-            setUserError(e.message);
-            setUser(null); // Ensure user is null on error
+            console.log("Error fetching user data", e.message)
+            setUserResponse(e.message)
+            setUser(null)
         } finally {
-            setUserLoading(false); // Update loading state
+            setUserLoading(false)
         }
     };
 
     useEffect(() => {
-        fetchUser();
-    }, []);
-
+        fetchUser()
+        console.log("in user context first time", user)
+    }, [])
     
     return (
         <UserContext.Provider value={{ 
             user,
             setUser,
-            userError,
             userLoading,
-            setUserError,
             setUserLoading,
+            userResponse,
+            setUserResponse,
             fetchUser
         }}>
             {children}

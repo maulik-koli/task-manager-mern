@@ -1,32 +1,39 @@
-import { createContext, useState, useContext } from "react";
-import { fetchData, postData, updateData } from "../api/api";
-import { ErrorAndFetchingContext } from "./ErrorAndFetchingProvider";
+import { createContext, useState } from "react"
+import { fetchData, postData, updateData, deleteData } from "../api/api"
 
 export const DataContext = createContext()
 
 export const DataProvider = ({ children }) => {
-    const { setResponseMessage } = useContext(ErrorAndFetchingContext)
     const [responseData, setResponseData] = useState(null)
-    const [singleData, setSingleData] = useState(null)
+    const [singleResponseData, setSingleResponseData] = useState(null)
     const [isDataLoading, setIsDataLoading] = useState(false)
+    const [dateResponse, setDataResponse] = useState(null)
 
     const fetchResponseData = async (pathUrl) => {
         setIsDataLoading(true)
         try{
             const result = await fetchData(pathUrl)
+            console.log(result)
 
             if (result.error) {
-                throw new Error(result.error || "Unable to fetch data.");
+                throw new Error(result.error || "Unable to fetch data.")
             }
 
-            setResponseData(result.data);
+            if (Array.isArray(result.data) && result.data.length > 0) {
+                // If it's an array with a single element, set that element as single response data
+                if (result.data.length === 1) {
+                    setSingleResponseData(result.data[0]);
+                } else {
+                    setResponseData(result.data);
+                }
+            }
         }
         catch(e){
-            console.log("Error fetching response data", e.message);
-            setResponseMessage(e.message);
-            setResponseData(null);
+            console.log("Error fetching response data", e.message)
+            setDataResponse(e.message)
+            setResponseData(null)
         } finally {
-            setIsDataLoading(false);
+            setIsDataLoading(false)
         }
     }
 
@@ -36,15 +43,15 @@ export const DataProvider = ({ children }) => {
             const result = await postData(pathUrl, data)
 
             if (result.error) {
-                throw new Error(result.error || "Unable to post data.");
+                throw new Error(result.error || "Unable to post data.")
             }
 
-            setSingleData(result.data);
+            setSingleResponseData(result.data);
         }
         catch(e){
-            console.log("Error posting response data", e.message);
-            setResponseMessage(e.message);
-            setSingleData(null);
+            console.log("Error posting response data", e.message)
+            setDataResponse(e.message)
+            setSingleResponseData(null)
         } finally {
             setIsDataLoading(false);
         }
@@ -60,18 +67,40 @@ export const DataProvider = ({ children }) => {
             delete data._id
             
             const result = await updateData(pathUrl, data)
+            console.log(result)
 
             if (result.error) {
                 throw new Error(result.error || "Unable to update data.");
             }
 
-            setSingleData(result.data);
+            setSingleResponseData(result.data.project);
         }
         catch(e){
             console.log("Error posting response data", e.message);
-            setResponseMessage(e.message)
+            setDataResponse(e.message)
         } finally {
             setIsDataLoading(false);
+        }
+    }
+
+    const deleteTheData = async (pathUrl) => {
+        setIsDataLoading(true)
+        try{
+            const result = await deleteData(pathUrl)
+            console.log(result)
+
+            if (result.error) {
+                throw new Error(result.error || "Unable to delete data.")
+            }
+
+            setResponseData(result.data.message)
+        }
+        catch(e){
+            console.log("Error fetching response data", e.message)
+            setDataResponse(e.message)
+            setResponseData(null)
+        } finally {
+            setIsDataLoading(false)
         }
     }
 
@@ -80,13 +109,17 @@ export const DataProvider = ({ children }) => {
             value={{ 
                 responseData,
                 setResponseData,
+                singleResponseData,
+                setSingleResponseData,
                 isDataLoading,
                 setIsDataLoading,
+                dateResponse,
+                setDataResponse,
+                
                 fetchResponseData,
                 postCreatedData,
-                singleData, 
-                setSingleData,
-                patchUpdateData
+                patchUpdateData,
+                deleteTheData
             }}
         >
             {children}

@@ -1,4 +1,4 @@
-import { getCookie } from "../utils/fuctions";
+import { getCookie } from "../utils/fuctions"
 
 const url = "http://localhost:3000/"
 
@@ -16,16 +16,16 @@ export const fetchData = async (BASE_URL) => {
         })
 
         if(!response.ok) {
-            const errorData = await response.json();
-            return { status: response.status, error: errorData.message || 'Something went wrong' };
+            const errorData = await response.json()
+            return { status: response.status, error: errorData.message || 'Something went wrong' }
         }
 
-        const responseData = await response.json();
-        return { status: response.status, data: responseData };
+        const responseData = await response.json()
+        return { status: response.status, data: responseData }
     }
     catch(e){
-        console.log(e.message);
-        return { status: 500, error: 'Internal server error' }; 
+        console.log(e.message)
+        return { status: 500, error: 'Internal server error' }
     }
 }
 
@@ -41,11 +41,11 @@ export const postData = async (BASE_URL, reqData) => {
                 'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify(reqData),
-        });
+        })
 
         console.log(response)
         if (!response.ok) {
-            const errorData = await response.json();
+            const errorData = await response.json()
             console.log(errorData, response.status)
             return { status: response.status, error: errorData.message || 'Something went wrong.' }
         }
@@ -55,8 +55,8 @@ export const postData = async (BASE_URL, reqData) => {
         return { status: response.status, data: responseData };
     } 
     catch(e) {
-        console.log(e.message);
-        return { status: 500, error: 'Internal server error' }; 
+        console.log(e.message)
+        return { status: 500, error: 'Internal server error' }
     }
 };
 
@@ -72,18 +72,20 @@ export const updateData = async (BASE_URL, reqData) => {
             },
             body: JSON.stringify(reqData),
         })
+
         console.log(response)
+
         if (!response.ok) {
-            const errorData = await response.json();
-            return { status: response.status, error: errorData.message || 'Something went wrong' };
+            const errorData = await response.json()
+            return { status: response.status, error: errorData.message || 'Something went wrong' }
         }
         
-        const responseData = await response.json();
-        return { status: response.status, data: responseData };
+        const responseData = await response.json()
+        return { status: response.status, data: responseData }
     } 
     catch(e) {
         console.log(e.message);
-        return { status: 500, error: 'Internal server error' }; 
+        return { status: 500, error: 'Internal server error' }
     }
 }
 
@@ -98,18 +100,18 @@ export const deleteData = async (BASE_URL) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
-        });
+        })
 
         if (!response.ok) {
             const errorData = await response.json();
-            return { status: response.status, error: errorData.message || 'Something went wrong' };
+            return { status: response.status, error: errorData.message || 'Something went wrong' }
         }
         
         const responseData = await response.json();
-        return { status: response.status, data: responseData };
+        return { status: response.status, data: responseData }
     } 
     catch(e) {
         console.log(e.message);
-        return { status: 500, error: 'Internal server error' }; 
+        return { status: 500, error: 'Internal server error' }
     }
 };

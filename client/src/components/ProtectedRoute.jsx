@@ -5,14 +5,14 @@ import RootLayout from '../pages/RootLayout'
 import { UserContext } from '../contexts/UserProvider'
 
 const ProtectedRoute = ({ children }) => {
-    const { user, userLoading } = useContext(UserContext);
+    const { user, userLoading } = useContext(UserContext)
 
     if (userLoading) {
         return <RootLayout userLoading/>;
     }
 
     if (!user) {
-        return <Navigate to='/auth/login' replace />;
+        return <Navigate to='/auth/login' replace />
     }
 
     return ( children )

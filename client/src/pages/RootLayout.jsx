@@ -3,17 +3,16 @@ import { Outlet } from 'react-router-dom'
 
 import Header from '../components/Header'
 import SideMenu from '../components/SideMenu'
-
-import { UserContext } from '../contexts/UserProvider'
-import { ErrorAndFetchingContext } from '../contexts/ErrorAndFetchingProvider'
 import Loading from '../components/Loading'
 
+import { UserContext } from '../contexts/UserProvider'
+
+
 const RootLayout = ({ userLoading }) => {
-  const { user } = useContext(UserContext)
-  const { setResponseMessage } = useContext(ErrorAndFetchingContext)
+  const { user, setUserResponse } = useContext(UserContext)
 
   useEffect(() => {
-    setResponseMessage(null)
+    setUserResponse(null)
   }, [])
 
   return (

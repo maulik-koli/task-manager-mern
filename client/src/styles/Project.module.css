@@ -56,6 +56,17 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    gap: .8rem;
+}
+
+#deletePro {
+    background-color: #ff1818;
+    color: #FFFFFF;
+}
+
+#deletePro:hover {
+    background-color: #2d0000;
+    transform: scale(1.05);
 }
 
 .topBtnsCon div button {
@@ -81,7 +92,7 @@
 }
 
 #redBtns:hover {
-    background-color: #FF0000;
+    background-color: #a60000;
     transform: scale(1.05);
 }
 
