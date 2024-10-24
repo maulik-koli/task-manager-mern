@@ -1,13 +1,15 @@
 import React, { useContext } from 'react'
 
-import { ErrorAndFetchingContext } from '../contexts/ErrorAndFetchingProvider'
+import { UserContext } from '../contexts/UserProvider.jsx';
+import { DataContext } from '../contexts/DataProvider.jsx';
 import { useNavigate } from 'react-router-dom'
 
-const AlertMessage = ({ path }) => {
-    const { responseMessage, setResponseMessage } = useContext(ErrorAndFetchingContext)
+const AlertMessage = ({ path, msg }) => {
+    const { setUserResponse } = useContext(UserContext)
+    const { setDataResponse } = useContext(DataContext)
     const navigate = useNavigate()
 
-    if(!responseMessage) {
+    if(!msg) {
         return null
     }
 
@@ -15,12 +17,13 @@ const AlertMessage = ({ path }) => {
         if(path){
             navigate(path)
         }
-        setResponseMessage(null)
+        setUserResponse(null)
+        setDataResponse(null)
     }
 
     return (
     <div className="alertMessage">
-        <p>{responseMessage}</p>
+        <p>{msg}</p>
         <button className="closeButton" onClick={handleClockButton}>Close</button>
     </div>
     )

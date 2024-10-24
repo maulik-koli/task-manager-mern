@@ -4,13 +4,13 @@ import { Outlet } from 'react-router-dom'
 import Header from '../components/Header'
 import SideMenu from '../components/SideMenu'
 
-import { ErrorAndFetchingContext } from '../contexts/ErrorAndFetchingProvider'
+import { UserContext } from '../contexts/UserProvider'
 
 const AuthLayout = () => {
-  const { setResponseMessage } = useContext(ErrorAndFetchingContext)
+  const { setUserResponse } = useContext(UserContext)
 
   useEffect(() => {
-    setResponseMessage(null)
+    setUserResponse(null)
   }, [])
 
   return (

@@ -1,22 +1,22 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 
-import RootLayout from "../pages/RootLayout";
-import ErrorPage from '../pages/ErrorPage';
-import HomePage from '../pages/HomePage';
-import ProfileLayout from '../pages/ProfileLayout';
-import ProfilePage from '../pages/ProfilePage';
-import EditProfilePage from '../pages/EditProfilePage';
-import ProtectedRoute from '../components/ProtectedRoute';
-import AuthLayout from '../pages/AuthLayout';
-import SignUpPage from '../pages/SignUpPage';
-import LogInPage from '../pages/LogInPage';
+import RootLayout from "../pages/RootLayout"
+import ErrorPage from '../pages/ErrorPage'
+import HomePage from '../pages/HomePage'
+import ProfileLayout from '../pages/ProfileLayout'
+import ProfilePage from '../pages/ProfilePage'
+import EditProfilePage from '../pages/EditProfilePage'
+import ProtectedRoute from '../components/ProtectedRoute'
+import AuthLayout from '../pages/AuthLayout'
+import SignUpPage from '../pages/SignUpPage'
+import LogInPage from '../pages/LogInPage'
+import ProjectLayout from '../pages/ProjectLayout'
+import ProjectPage from '../pages/ProjectPage'
+import AddProjectPage from '../pages/AddProjectPage'
+import ReadProjectPage from '../pages/ReadProjectPage'
 
-import { userLoader, dataLoader } from '../api/loaders';
-import ProjectLayout from '../pages/ProjectLayout';
-import ProjectPage from '../pages/ProjectPage';
-import AddProjectPage from '../pages/AddProjectPage';
-import ReadProjectPage from '../pages/ReadProjectPage';
+import { userLoader, dataLoader } from '../api/loaders'
 
 const router = createBrowserRouter([
   {
@@ -27,12 +27,13 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     loader: async () => {
-      const result = await userLoader();
-      console.log(result)
+      const result = await userLoader()
+      console.log("in router", result)
+
       if (result.redirect) {
-        return <Navigate to={result.redirect} replace />;
+        return <Navigate to={result.redirect} replace />
       }
-      return result;
+      return result
     },
     errorElement: <ErrorPage />,
     children: [
@@ -80,10 +81,10 @@ const router = createBrowserRouter([
     ]
   },
   { path: '*', element: <ErrorPage /> },
-]);
+])
 
 const AppRoutes = () => {
   return <RouterProvider router={router} />
-};
+}
 
 export default AppRoutes;

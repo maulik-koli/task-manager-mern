@@ -1,11 +1,11 @@
-import { userProfile } from "./userApi"; 
-import { formatDate } from "../utils/fuctions";
-import { fetchData } from "./api";
+import { userProfile } from "./userApi"
+import { formatDate } from "../utils/fuctions"
+import { fetchData } from "./api"
 
 export const userLoader = async () => {
     try{
         const result = await userProfile('me')
-        console.log(result, "in loader")
+        console.log("in loader", result)
 
         if (result.error) {
             if (result.status === 401) {
@@ -14,14 +14,14 @@ export const userLoader = async () => {
             throw new Response(result.error || "Something went wrong", { status: result.status })
         }
         
-        result.data.createdAt = formatDate(result.data.createdAt);
-        result.data.updatedAt = formatDate(result.data.updatedAt);
+        result.data.createdAt = formatDate(result.data.createdAt)
+        result.data.updatedAt = formatDate(result.data.updatedAt)
 
-        return { status: result.status, data: result.data };
+        return { status: result.status, data: result.data }
     } 
     catch (e) {
-        console.log("Error fetching user data:", e);
-        return { redirect: '/auth/login' };
+        console.log("Error fetching user data:", e)
+        return { redirect: '/auth/login' }
     }
 }
 

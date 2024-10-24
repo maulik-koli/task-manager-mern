@@ -6,7 +6,6 @@ import AlertMessage from '../components/AlertMessage';
 
 import { UserContext } from '../contexts/UserProvider';
 import { editUser } from '../api/userApi';
-import { ErrorAndFetchingContext } from '../contexts/ErrorAndFetchingProvider';
 import { isValidPassword } from '../utils/fuctions';
 
 import EditIcon from '@mui/icons-material/Edit';
@@ -15,8 +14,7 @@ import classes from '../styles/Profile.module.css'
 const { profCon, changeCon, editConA, editConB, editCon, editConZ, editInput, editBtns, editIconWrapper } = classes
 
 const EditProfilePage = () => {
-  const { fetchUser } = useContext(UserContext)
-  const { responseMessage, setResponseMessage } = useContext(ErrorAndFetchingContext)
+  const { fetchUser, userResponse, setUserResponse } = useContext(UserContext)
   const [inputConState, setInputConState] = useState(null)
 
   const nameIp = useRef(null)
@@ -93,17 +91,17 @@ const EditProfilePage = () => {
 
       console.log(result)
       await fetchUser()
-      setResponseMessage(null)
+      setUserResponse(null)
       navigate('..')
     }
     catch(e){
-      setResponseMessage(e.message)
+      setUserResponse(e.message)
     }
   };
 
   return (
     <div className={profCon}>
-      {responseMessage && <AlertMessage />}
+      {userResponse && <AlertMessage />}
       <div className={editCon}>
         <div className={editConZ}><h1>Edit Profile</h1><Link to='..'><ArrowBackIcon /></Link></div>
           <div className={editConA}>

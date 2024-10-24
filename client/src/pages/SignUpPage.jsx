@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import InputContainer from '../components/InputContainer.jsx'
 import AlertMessage from '../components/AlertMessage.jsx';
 
 import { UserContext } from '../contexts/UserProvider.jsx';
-import { ErrorAndFetchingContext } from '../contexts/ErrorAndFetchingProvider';
 import { sigupLoginUser } from '../api/userApi.js'
 import { isValidPassword } from '../utils/fuctions.js'
 
@@ -14,9 +13,10 @@ import classes from '../styles/SignUpLogIn.module.css'
 
 
 const SignUpPage = () => {
-    const { fetchUser } = useContext(UserContext)
-    const { responseMessage, setResponseMessage } = useContext(ErrorAndFetchingContext)
+    const { fetchUser, userResponse, setUserResponse } = useContext(UserContext)
     const [isInputValid, setIsInputValid] = useState(<h4>Already has acoount? <Link to="/auth/login" relative='path'>Log In</Link></h4>)
+
+    const navigate = useNavigate()
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -41,20 +41,26 @@ const SignUpPage = () => {
         const result = await sigupLoginUser("", data)
 
         if(result.error) {
-            setResponseMessage(result.error)
+            setUserResponse(result.error)
             return
         }
 
         console.log("in sign in", result)
         await fetchUser()
-        setResponseMessage('You have succefully sign up.')
+        setUserResponse('You have succefully sign up.')
         event.target.reset();
         setIsInputValid(<></>)
+
+        const timeoutId = setTimeout(() => {
+            navigate('/', { replace: true });
+        }, 1000);
+
+        return () => clearTimeout(timeoutId);
     }
 
     return (
         <div className={container} >
-            {responseMessage && <AlertMessage path='/' />}
+            {userResponse && <AlertMessage path='/' />}
             <div className={signUp}>
                 <h1>Sign Up</h1>
                 <form onSubmit={handleSubmit}>

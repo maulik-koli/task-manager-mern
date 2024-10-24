@@ -5,7 +5,6 @@ import classes from '../styles/Project.module.css'
 const { project } = classes
 
 const ProjectLayout = () => {
-
   return (
     <div className={project}>
       <Outlet />
