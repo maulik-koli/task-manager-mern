@@ -60,7 +60,7 @@ const SignUpPage = () => {
 
     return (
         <div className={container} >
-            {userResponse && <AlertMessage path='/' />}
+            {userResponse && <AlertMessage msg={userResponse} path='/' />}
             <div className={signUp}>
                 <h1>Sign Up</h1>
                 <form onSubmit={handleSubmit}>

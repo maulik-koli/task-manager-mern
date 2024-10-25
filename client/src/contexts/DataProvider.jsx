@@ -20,7 +20,6 @@ export const DataProvider = ({ children }) => {
             }
 
             if (Array.isArray(result.data) && result.data.length > 0) {
-                // If it's an array with a single element, set that element as single response data
                 if (result.data.length === 1) {
                     setSingleResponseData(result.data[0]);
                 } else {
@@ -41,19 +40,21 @@ export const DataProvider = ({ children }) => {
         setIsDataLoading(true)
         try{
             const result = await postData(pathUrl, data)
-
+            console.log(result)
             if (result.error) {
                 throw new Error(result.error || "Unable to post data.")
             }
 
-            setSingleResponseData(result.data);
+            setSingleResponseData(result.data.project)
+            setDataResponse(result.data.message)
         }
         catch(e){
             console.log("Error posting response data", e.message)
             setDataResponse(e.message)
             setSingleResponseData(null)
         } finally {
-            setIsDataLoading(false);
+            setIsDataLoading(false)
+            return result.data
         }
     }
 

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLoaderData } from 'react-router-dom'
 
 import Header from '../components/Header'
 import SideMenu from '../components/SideMenu'
@@ -9,11 +9,14 @@ import { UserContext } from '../contexts/UserProvider'
 
 
 const RootLayout = ({ userLoading }) => {
-  const { user, setUserResponse } = useContext(UserContext)
+  const result = useLoaderData()
+  
+  const { user, setUserResponse, setUser } = useContext(UserContext)
 
   useEffect(() => {
+    setUser(result.data)
     setUserResponse(null)
-  }, [])
+  }, [result])
 
   return (
     <>  

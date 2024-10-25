@@ -29,7 +29,7 @@ router.get('/', auth, async (req, res) => {
         const projects = req.user.projects
 
         if(!projects.length){
-            res.status(404).send()
+            return res.status(404).send({ error: "There is no Projetcs avaiable" })
         }
 
         res.status(200).send(projects)

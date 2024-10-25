@@ -3,6 +3,31 @@
     width: 100%;
 }
 
+.projectErrorCon {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.projectErrorCon a {
+    text-decoration: none;
+    background-color: #FFB74D;
+    color: #a60000;
+    display: flex;
+    width: 12rem;
+    justify-content: center;
+    border-radius: 2rem;
+}
+
+.projectErrorCon a:hover {
+    color: #FFFFFF;
+}
+
 .projectHeader {
     height: 8%;
     display: flex;

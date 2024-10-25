@@ -56,11 +56,13 @@ const AddProjectPage = () => {
         return
     }
 
-    await postCreatedData('projects', {
+    const createdProjectData = await postCreatedData('projects', {
         title: projectData.title.toString(),
         description: projectData.description.toString(),
         subtasks: projectData.subtasks.map(task => ({ title: task.title }))
     })
+    setProjectData(createdProjectData)
+    setDataResponse("123")
   }
 
   return (

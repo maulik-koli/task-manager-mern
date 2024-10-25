@@ -17,7 +17,8 @@ export const fetchData = async (BASE_URL) => {
 
         if(!response.ok) {
             const errorData = await response.json()
-            return { status: response.status, error: errorData.message || 'Something went wrong' }
+            console.log("fetch data in api", errorData)
+            return { status: response.status, error: errorData.error || 'Something went wrong' }
         }
 
         const responseData = await response.json()
