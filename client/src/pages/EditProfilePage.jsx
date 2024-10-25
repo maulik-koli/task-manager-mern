@@ -101,7 +101,7 @@ const EditProfilePage = () => {
 
   return (
     <div className={profCon}>
-      {userResponse && <AlertMessage />}
+      {userResponse && <AlertMessage msg={userResponse}/>}
       <div className={editCon}>
         <div className={editConZ}><h1>Edit Profile</h1><Link to='..'><ArrowBackIcon /></Link></div>
           <div className={editConA}>

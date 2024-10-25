@@ -11,7 +11,7 @@ export const userLoader = async () => {
             if (result.status === 401) {
                 return { redirect: '/auth/login' };
             }
-            throw new Response(result.error || "Something went wrong", { status: result.status })
+            return { status: result.status, error: result.error || "Something went wrong" }
         }
         
         result.data.createdAt = formatDate(result.data.createdAt)
@@ -31,7 +31,7 @@ export const dataLoader = async (pathUrl) => {
         console.log(result, "in loader")
 
         if (result.error) {
-            throw new Response(result.error || "Unable to fetch data.", { status: result.status })
+            return { status: result.status, error: result.error || "Unable to fetch data." }
         }
 
         // Handle case where the user doesn't own the data

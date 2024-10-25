@@ -53,7 +53,7 @@ const LogIn = () => {
 
     return (
         <div className={container} >
-            {userResponse && <AlertMessage path='/' />}
+            {userResponse && <AlertMessage msg={userResponse} path='/' />}
             <div className={logIn}>
                 <h1>Log In</h1>
                 <form onSubmit={handleSubmit}>
