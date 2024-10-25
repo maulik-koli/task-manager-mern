@@ -1,0 +1,86 @@
+.task {
+    height: 100%;
+    width: 100%;
+}
+
+.taskErrorCon {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.taskErrorCon a {
+    text-decoration: none;
+    background-color: #FFB74D;
+    color: #a60000;
+    display: flex;
+    width: 12rem;
+    justify-content: center;
+    border-radius: 2rem;
+}
+
+.taskErrorCon a:hover {
+    color: #FFFFFF;
+}
+
+.taskHeader {
+    height: 8%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    font-size: xx-large;
+    padding-left: 1rem;
+    background-color: #9B3100;
+    color: #FEFBD8;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.selectCate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .4rem;
+}
+
+.selectCate label {
+    height: 2.6rem;
+}
+
+.selectCate select {
+    height: 1.5rem;
+    background-color: #fffabe;
+}
+
+.taksNav {
+    height: 100%;
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    padding-top: .4rem;
+    box-sizing: border-box;
+}
+
+.taksNav a {
+    text-decoration: none;
+    width: 10rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFB74D;
+}
+
+.taksNav a:hover {
+    background-color: #FEFBD8;
+    color: #9B3100;
+}
+
+.taksNav a.active {
+    background-color: #FEFBD8;
+    color: #9B3100;
+}

@@ -65,4 +65,15 @@ export const formatDate = (dateString) => {
     const year = date.getUTCFullYear();
 
     return `${day} ${month} ${year}`;
-};
+}
+
+export const sortCategoriesArray = (categoriesArray, cate) => {
+    const indexOfCate = categoriesArray.indexOf(cate)
+
+    if (indexOfCate === -1 || indexOfCate === 0) {
+        return [...categoriesArray]
+    }
+
+    const updatedCategories = categoriesArray.filter((_, index) => index !== indexOfCate)
+    return [cate, ...updatedCategories]
+}
