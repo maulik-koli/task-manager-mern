@@ -25,6 +25,10 @@ router.post('/', auth, async (req, res) => {
 router.get('/', auth, async (req, res) => {
     const match = {}
 
+    if(req.query.category){
+        match.category = req.query.category ? req.query.category : "None"
+    }
+
     if(req.query.completed){
         match.completed = req.query.completed === "true"
     }
@@ -38,7 +42,7 @@ router.get('/', auth, async (req, res) => {
         const tasks = req.user.tasks
 
         if (!tasks.length) {
-            return res.status(404).send(); 
+            return res.status(404).send({ error: "There is no Tasks avaiable" }); 
         }
 
         res.status(200).send(tasks);
@@ -48,28 +52,20 @@ router.get('/', auth, async (req, res) => {
     }
 })
 
-// get by categories
-router.get('/category/:category', auth, async (req, res) => {
-    const category = req.params.category
-    const match = {}
-
-    if(req.query.completed){
-        match.completed = req.query.completed === "true"
-    }
-
+// get all categories
+router.get('/categories/', auth, async (req, res) => {
     try {
-        const tasks = await Tasks.find({ owner: req.user._id, category });
-
-        if (!tasks.length) {
-            return res.status(404).send(); 
+        const categories = await Tasks.distinct('category', { owner: req.user._id })
+        
+        if (!categories.length) {
+            return res.status(404).send({ error: "No categories found." })
         }
 
-        res.status(200).send(tasks);
+        res.status(200).send(categories)
+    } catch (e) {
+        res.status(500).send({ error: e.message })
     }
-    catch (e) {
-        res.status(500).send({ error: e.message });
-    }
-});
+})
 
 // get task by id
 router.get('/:id', auth, async (req, res) => {
@@ -78,7 +74,7 @@ router.get('/:id', auth, async (req, res) => {
         const task = await Tasks.findOne({ _id, owner: req.user._id })
 
         if(!task){
-            return res.status(404).send()
+            return res.status(404).send({ error: "Task is not avaiable" })
         }
 
         res.status(200).send(task)

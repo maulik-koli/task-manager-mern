@@ -3,7 +3,7 @@ import React from 'react'
 const TaskPage = () => {
   return (
     <>
-     Task page 
+     Task page new
     </>
   )
 }

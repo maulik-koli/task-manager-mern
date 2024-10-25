@@ -15,8 +15,10 @@ import ProjectLayout from '../pages/ProjectLayout'
 import ProjectPage from '../pages/ProjectPage'
 import AddProjectPage from '../pages/AddProjectPage'
 import ReadProjectPage from '../pages/ReadProjectPage'
+import TaskPage from '../pages/TaskPage'
 
 import { userLoader, dataLoader } from '../api/loaders'
+import TaskLayout from '../pages/TaskLayout';
 
 const router = createBrowserRouter([
   {
@@ -69,7 +71,26 @@ const router = createBrowserRouter([
             element: <ReadProjectPage />,
           },
         ]
-      }
+      },
+      {
+        path: 'task',
+        element: (
+          <ProtectedRoute>
+            <TaskLayout />
+          </ProtectedRoute>
+        ),
+        loader: async () => {
+          const result = await dataLoader('tasks/categories')
+          return result
+        },
+        children: [
+          {
+            index: true,
+            element: <TaskPage />
+
+          }
+        ]
+      },
     ],
   },
   { 
