@@ -1,15 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { NavLink, Outlet, useLoaderData } from 'react-router-dom'
 
+import Loading from '../components/Loading'
+
+import { TaskContext } from '../contexts/TaskProvider'
 import { sortCategoriesArray } from '../utils/fuctions'
 
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import classes from '../styles/Task.module.css'
-const { task, taskHeader, selectCate, taksNav } = classes
+const { task, taskHeader, selectCate, taksNav, addTask, iconButton, taskLink, active } = classes
 
 
 const TaskLayout = () => {
     const result = useLoaderData()
-    const [categories, setCategories] = useState(sortCategoriesArray(result.data, 'None'))
+    const { categories, setCategories } = useContext(TaskContext)
+    
+    useEffect(() => {
+        setCategories(sortCategoriesArray(result.data, 'None'))
+    }, [])
     
     useEffect(() => {
         if(result.data){
@@ -34,12 +42,34 @@ const TaskLayout = () => {
                     </select>
                 </div>
                 <div className={taksNav}>
-                    <NavLink to='/' className={({ isActive }) => `${isActive ? 'active' : ''}`}>Padding</NavLink>
-                    <NavLink>Completed</NavLink>
-                    <NavLink>All</NavLink>
+                <NavLink 
+                    to='/task'
+                    className={({ isActive }) => `${taskLink} ${isActive ? active : ''}`}
+                    end
+                >
+                    Padding
+                </NavLink>
+                <NavLink 
+                   to='/task/completed-tasks'  
+                    className={({ isActive }) => `${taskLink} ${isActive ? active : ''}`}
+                >
+                    Completed
+                </NavLink>
+                <NavLink 
+                    to='/task/all-tasks'  
+                    className={({ isActive }) => `${taskLink} ${isActive ? active : ''}`}
+                >
+                    All
+                </NavLink>
                 </div>
             </div>
-            <Outlet />
+            <div className={addTask}>
+                <button className={iconButton}><AddBoxIcon  fontSize="inherit" /></button>
+                <input type='text' placeholder='Add the task description here.' />
+            </div>
+            {categories.length === 0 ? <Loading /> : 
+                <Outlet />            
+            }
         </div>
     )
 }
