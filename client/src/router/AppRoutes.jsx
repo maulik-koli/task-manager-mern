@@ -19,6 +19,8 @@ import TaskPage from '../pages/TaskPage'
 
 import { userLoader, dataLoader } from '../api/loaders'
 import TaskLayout from '../pages/TaskLayout';
+import TaskPendingPage from '../pages/TaskPendingPage';
+import TaskCompletedPage from '../pages/TaskCompletedPage';
 
 const router = createBrowserRouter([
   {
@@ -86,9 +88,22 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <TaskPage />
-
-          }
+            element: <TaskPendingPage />,
+            loader: async () => {
+              const result = await dataLoader('tasks?completed=false&category=None')
+              return result
+            }
+          },
+          {
+            path: 'completed-tasks',
+            element: <TaskCompletedPage />,
+            loader: () => 1
+          },
+          {
+            path: 'all-tasks',
+            element: <TaskPage />,
+            loader: () => 1
+          },
         ]
       },
     ],

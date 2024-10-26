@@ -1,6 +1,8 @@
 .task {
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .taskErrorCon {
@@ -29,58 +31,133 @@
 }
 
 .taskHeader {
-    height: 8%;
+    height: 10%;
     display: flex;
     align-items: center;
-    box-sizing: border-box;
-    font-size: xx-large;
-    padding-left: 1rem;
+    padding: 1rem;
     background-color: #9B3100;
     color: #FEFBD8;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .selectCate {
     display: flex;
-    justify-content: center;
     align-items: center;
-    gap: .4rem;
+    gap: 1rem;
 }
 
 .selectCate label {
-    height: 2.6rem;
+    font-weight: bold;
 }
 
 .selectCate select {
-    height: 1.5rem;
-    background-color: #fffabe;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #FFA500;
+    background-color: #FFEB3B;
 }
 
 .taksNav {
-    height: 100%;
-    margin-left: 1rem;
+    margin-left: auto;
+    display: flex;
+    gap: 1rem;
+}
+
+.taskLink {
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    color: #FFB74D;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 0.5rem; /* Added border-radius for consistency */
+    display: flex; /* Optional: if you want to align items inside */
+    align-items: center; /* Optional: vertically center */
+}
+
+.taskLink:hover {
+    background-color: #FEFBD8;
+    color: #9B3100;
+}
+
+.active {
+    background-color: #FEFBD8; /* Keep the same style for active link */
+    color: #9B3100;
+    box-shadow: 0 0 10px rgba(255, 235, 59, 0.5); /* Add shadow effect */
+}
+
+.addTask {
+    height: 15%;
     display: flex;
     align-items: center;
-    padding-top: .4rem;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.addTask input {
+    flex-grow: 1;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #FFA500;
+    height: 90%;
+    background-color: #ffe89d;
+}
+
+.iconButton {
+    background-color: #FFA500;
+    border: none;
+    border-radius: 0.5rem;
+    width: 3.8%; /* Adjust width as needed */
+    height: 85%; /* Adjust height as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 2rem; /* Increase font size for larger icon */
+}
+
+.iconButton:hover {
+    background-color: #FFB74D;
+}
+
+.allTaskCon {
+    background-color: blue;
+    height: 77%;
+    width: 100%;
+}
+
+.allTaskCon ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: white;
     box-sizing: border-box;
 }
 
-.taksNav a {
-    text-decoration: none;
-    width: 10rem;
-    height: 100%;
+.theTask {
     display: flex;
-    align-items: center;
+    width: 100%;
+    background-color: #FEFBD8;
+}
+
+.taskCheckBox {
+    background-color: yellow;
+    width: 20%;
+    display: flex;
     justify-content: center;
-    color: #FFB74D;
+    align-items: center;
 }
 
-.taksNav a:hover {
-    background-color: #FEFBD8;
-    color: #9B3100;
+.theTask input {
+    height: 80%;
 }
 
-.taksNav a.active {
-    background-color: #FEFBD8;
-    color: #9B3100;
+.theTask p {
+    width: 80%;
+    background-color: red;
+}
+
+.taskBtns {
+    background-color: brown;
 }

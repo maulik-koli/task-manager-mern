@@ -2,15 +2,18 @@ import React from 'react'
 
 import { UserProvider } from './contexts/UserProvider'
 import { DataProvider } from './contexts/DataProvider'
+import { TaskProvider } from './contexts/TaskProvider'
 import AppRoutes from './router/AppRoutes'
 
 const App = () => {
   return (
-    <DataProvider>
       <UserProvider>
-        <AppRoutes />
+        <TaskProvider>
+          <DataProvider>
+            <AppRoutes />
+          </DataProvider>
+        </TaskProvider>
       </UserProvider>
-    </DataProvider>
   )
 }
 
