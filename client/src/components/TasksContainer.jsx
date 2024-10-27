@@ -1,23 +1,77 @@
-import React, {  } from 'react'
+import React, { useState } from 'react'
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SaveIcon from '@mui/icons-material/Save';
+import ClearIcon from '@mui/icons-material/Clear';
 import classes from '../styles/Task.module.css'
-const { allTaskCon, theTask, taskBtns, taskCheckBox } = classes
+const { allTaskCon, theTask, taskBtns, taskCheckBox, commonTextStyle } = classes
 
-const TasksContainer = ({ TASKS, onUpdate }) => {
+const TasksContainer = ({ TASKS, onUpdate, onEdit, onDelete }) => {
+    const [editId, setEditId] = useState(null)
+    const [taskDescription, setTaskDescription] = useState('')
+
+    const handleEditButton = (id, description) => {
+        if (editId === id) {
+            setEditId(null)
+            setTaskDescription('')
+        }
+        else {
+            setEditId(id)
+            setTaskDescription(description)
+        }
+    }
+
+    const handleSaveButton = (id) => {
+        onEdit(id, taskDescription)
+    }
+
+    const handdleDeleteButton = (id) => {
+        onDelete(id)
+    }
+
+    const handleChnage = (e) => {
+        setTaskDescription(e.target.value)
+    }
+
     return (
         <div className={allTaskCon}>
             <ul>
                 {TASKS.map((task) => (
                    <li key={task._id} className={theTask}>
                         <div className={taskCheckBox}>
-                            <input type='checkbox'  checked={task.completed} onChange={() => onUpdate(task._id, task.completed)} />
+                            <input
+                                type='checkbox' 
+                                checked={task.completed}
+                                onChange={() => onUpdate(task._id, task.completed)} 
+                                disabled={editId !== null}
+                            />
                         </div>
-                        <p>{task.description}</p>
+                        {editId === task._id ? (
+                            <input 
+                                type='text' 
+                                value={taskDescription}
+                                className={`${commonTextStyle}`}
+                                onChange={handleChnage}
+                            />
+                        ) : (
+                            <p className={commonTextStyle}>{task.description}</p>
+                        )}
                         <div className={taskBtns}>
-                            <button><EditIcon /></button>
-                            <button><DeleteIcon/></button>
+                            {editId !== task._id ? (
+                                <>
+                                    <button onClick={() => handleEditButton(task._id, task.description)}><EditIcon /></button>
+                                    <button 
+                                        disabled={editId !== null}
+                                        onClick={() => handdleDeleteButton(task._id)}
+                                    ><DeleteIcon /></button>
+                                </>
+                            ) : (
+                                <>
+                                    <button onClick={() => handleSaveButton(task._id)}><SaveIcon /></button>
+                                    <button onClick={() => handleEditButton(task._id, task.description)}><ClearIcon /></button>
+                                </>
+                            )}
                         </div>
                     </li> 
                 ))}

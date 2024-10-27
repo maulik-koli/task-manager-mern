@@ -8,7 +8,7 @@ import useTasks from '../hooks/useTasks'
 let useLoaderDataFlag = true
 
 const TaskPendingPage = () => {
-    const { tasks, isTaskLoading, updateTask } = useTasks(false)
+    const { tasks, isTaskLoading, updateTask, editTask, deleteTask } = useTasks(false)
     const result = useLoaderData()
 
     useEffect(() => {
@@ -21,6 +21,8 @@ const TaskPendingPage = () => {
                 <TasksContainer 
                     TASKS={useLoaderDataFlag ? result.data : tasks}
                     onUpdate={updateTask}
+                    onEdit={editTask}
+                    onDelete={deleteTask}
                 />
             }
         </>

@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { DataContext } from "../contexts/DataProvider";
 
 const useTasks = (completedStatus) => {
-    const { fetchResponseData, categories, patchUpdateData, setDataResponse } = useContext(DataContext)
+    const { fetchResponseData, categories, patchUpdateData, setDataResponse, deleteTheData, postCreatedData } = useContext(DataContext)
     const [tasks, setTasks] = useState([])
     const [isTaskLoading, setIsTaskLoading] = useState(true)
 
@@ -28,11 +28,38 @@ const useTasks = (completedStatus) => {
         setIsTaskLoading(false)
     }
 
+    const editTask = async (id, description) => {
+        setIsTaskLoading(true)
+
+        await patchUpdateData(`tasks/${id}`, { description: description })
+        await fetchTasks()
+
+        setIsTaskLoading(false)
+    }
+
+    const deleteTask = async (id) => {
+        setIsTaskLoading(true)
+
+        await deleteTheData(`tasks/${id}`)
+        await fetchTasks()
+
+        setIsTaskLoading(false)
+    }
+
+    const createTask = async (data) => {
+        setIsTaskLoading(true)
+
+        await postCreatedData(`tasks`, data)
+        await fetchTasks()
+
+        setIsTaskLoading(false)
+    }
+
     useEffect(() => {
         fetchTasks();
     }, [completedStatus, categories])
 
-    return { tasks, isTaskLoading, updateTask }
+    return { tasks, isTaskLoading, updateTask, editTask, deleteTask, createTask }
 }
 
 export default useTasks

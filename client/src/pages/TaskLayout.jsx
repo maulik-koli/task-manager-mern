@@ -1,10 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { NavLink, Outlet, useLoaderData } from 'react-router-dom'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { NavLink, Outlet, useLoaderData, useLocation, useNavigate } from 'react-router-dom'
 
 import Loading from '../components/Loading'
+import AlertMessage from '../components/AlertMessage'
 
 import { DataContext } from '../contexts/DataProvider'
 import { sortCategoriesArray } from '../utils/fuctions'
+import useTasks from '../hooks/useTasks'
 
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import classes from '../styles/Task.module.css'
@@ -13,7 +15,12 @@ const { task, taskHeader, selectCate, taksNav, addTask, iconButton, taskLink, ac
 
 const TaskLayout = () => {
     const result = useLoaderData()
-    const { categories, setCategories } = useContext(DataContext)
+    const { categories, setCategories, dateResponse, setDataResponse } = useContext(DataContext)
+    const { createTask } = useTasks()
+    const addTaskRef = useRef()
+
+    const navigate = useNavigate()
+    const location = useLocation()
     
     useEffect(() => {
         setCategories(sortCategoriesArray(result.data, 'None'))
@@ -27,6 +34,18 @@ const TaskLayout = () => {
 
     const handleCategoryChange = (e) => {
         setCategories(sortCategoriesArray(categories, e.target.value))
+    }
+
+    const handleAddTask = () => {
+        const data = {}
+        if(addTaskRef.current.value === '') {
+            setDataResponse("You can not add task without description.")
+            return
+        }
+        data.description = addTaskRef.current.value
+        data.category = categories[0]
+        createTask(data)
+        navigate(location.pathname)
     }
 
     return (
@@ -64,12 +83,20 @@ const TaskLayout = () => {
                 </div>
             </div>
             <div className={addTask}>
-                <button className={iconButton}><AddBoxIcon  fontSize="inherit" /></button>
-                <input type='text' placeholder='Add the task description here.' />
+                <button
+                    className={iconButton}
+                    onClick={handleAddTask}
+                    ><AddBoxIcon  fontSize="inherit" /></button>
+                <input
+                    type='text'
+                    placeholder='Add the task description here.'
+                    ref={addTaskRef}
+                />
             </div>
             {categories.length === 0 ? <Loading /> : 
                 <Outlet />            
             }
+            {dateResponse && <AlertMessage msg={dateResponse} />}
         </div>
     )
 }
