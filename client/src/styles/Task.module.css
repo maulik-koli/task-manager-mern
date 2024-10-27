@@ -68,9 +68,9 @@
     padding: 0.5rem 1rem;
     color: #FFB74D;
     transition: background-color 0.3s, color 0.3s;
-    border-radius: 0.5rem; /* Added border-radius for consistency */
-    display: flex; /* Optional: if you want to align items inside */
-    align-items: center; /* Optional: vertically center */
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
 }
 
 .taskLink:hover {
@@ -79,9 +79,9 @@
 }
 
 .active {
-    background-color: #FEFBD8; /* Keep the same style for active link */
+    background-color: #FEFBD8;
     color: #9B3100;
-    box-shadow: 0 0 10px rgba(255, 235, 59, 0.5); /* Add shadow effect */
+    box-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
 }
 
 .addTask {
@@ -98,22 +98,22 @@
     border-radius: 0.5rem;
     border: 1px solid #FFA500;
     height: 90%;
-    background-color: #ffe89d;
+    background-color: #ffdc6a;
 }
 
 .iconButton {
     background-color: #FFA500;
     border: none;
     border-radius: 0.5rem;
-    width: 3.8%; /* Adjust width as needed */
-    height: 85%; /* Adjust height as needed */
+    width: 3.8%;
+    height: 85%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #FFFFFF;
     cursor: pointer;
     transition: background-color 0.3s;
-    font-size: 2rem; /* Increase font size for larger icon */
+    font-size: 2rem;
 }
 
 .iconButton:hover {
@@ -121,43 +121,68 @@
 }
 
 .allTaskCon {
-    background-color: blue;
     height: 77%;
     width: 100%;
+    overflow-y: auto;
+    background-color: #FEFBD8;
+    border: 2px solid #9B3100;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
 }
 
 .allTaskCon ul {
+    padding: 0;
     list-style: none;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    background-color: white;
-    box-sizing: border-box;
+    gap: 1rem;
 }
 
 .theTask {
     display: flex;
+    align-items: center;
     width: 100%;
-    background-color: #FEFBD8;
+    background-color: #2718003c; 
+    color: #433f1d;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .taskCheckBox {
-    background-color: yellow;
-    width: 20%;
+    background-color: transparent;
+    width: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .theTask input {
-    height: 80%;
+    transform: scale(1.5);
+    margin: 0;
 }
 
 .theTask p {
-    width: 80%;
-    background-color: red;
+    flex-grow: 1;
+    margin: 0;
 }
 
 .taskBtns {
-    background-color: brown;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.taskBtns button {
+    background-color: #b67600;
+    color: #FFFFFF;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.3rem; 
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.taskBtns button:hover {
+    background-color: #FFEB3B;
 }

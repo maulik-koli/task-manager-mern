@@ -1,15 +1,28 @@
-import React, { useContext } from 'react'
+import React, { useEffect } from 'react'
 import { useLoaderData } from 'react-router-dom'
 
-import { TaskContext } from '../contexts/TaskProvider'
 import TasksContainer from '../components/TasksContainer'
+import Loading from '../components/Loading'
+
+import useTasks from '../hooks/useTasks'
+let useLoaderDataFlag = true
 
 const TaskPendingPage = () => {
+    const { tasks, isTaskLoading, updateTask } = useTasks(false)
     const result = useLoaderData()
+
+    useEffect(() => {
+        useLoaderDataFlag = false
+    }, [])
 
     return (
         <>
-            <TasksContainer TASKS={result.data}/>
+            {isTaskLoading ? <Loading /> :
+                <TasksContainer 
+                    TASKS={useLoaderDataFlag ? result.data : tasks}
+                    onUpdate={updateTask}
+                />
+            }
         </>
     )
 }

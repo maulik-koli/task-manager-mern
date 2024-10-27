@@ -97,12 +97,18 @@ const router = createBrowserRouter([
           {
             path: 'completed-tasks',
             element: <TaskCompletedPage />,
-            loader: () => 1
+            loader: async () => {
+              const result = await dataLoader('tasks?completed=true&category=None')
+              return result
+            }
           },
           {
             path: 'all-tasks',
             element: <TaskPage />,
-            loader: () => 1
+            loader: async () => {
+              const result = await dataLoader('tasks?&category=None')
+              return result
+            }
           },
         ]
       },
