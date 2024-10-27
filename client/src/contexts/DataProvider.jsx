@@ -8,31 +8,38 @@ export const DataProvider = ({ children }) => {
     const [singleResponseData, setSingleResponseData] = useState(null)
     const [isDataLoading, setIsDataLoading] = useState(false)
     const [dateResponse, setDataResponse] = useState(null)
+    const [categories, setCategories] = useState([])
+
 
     const fetchResponseData = async (pathUrl) => {
         setIsDataLoading(true)
-        try{
+        let finalData = null
+        try {
             const result = await fetchData(pathUrl)
             console.log(result)
-
+    
             if (result.error) {
                 throw new Error(result.error || "Unable to fetch data.")
             }
-
-            if (Array.isArray(result.data) && result.data.length > 0) {
-                if (result.data.length === 1) {
-                    setSingleResponseData(result.data[0]);
+    
+            if (result.data && typeof result.data === 'object') {
+                if (Array.isArray(result.data)) {
+                    setResponseData(result.data)
+                    finalData = result.data
                 } else {
-                    setResponseData(result.data);
+                    setSingleResponseData(result.data)
+                    finalData = result.data
                 }
             }
-        }
-        catch(e){
+        } 
+        catch (e) {
             console.log("Error fetching response data", e.message)
             setDataResponse(e.message)
             setResponseData(null)
+            setSingleResponseData(null)
         } finally {
             setIsDataLoading(false)
+            return finalData
         }
     }
 
@@ -61,11 +68,11 @@ export const DataProvider = ({ children }) => {
     const patchUpdateData = async (pathUrl, data) => {
         setIsDataLoading(true)
         try{
-            delete data.createdAt
-            delete data.owner
-            delete data.updatedAt
-            delete data.__v
-            delete data._id
+            if(data.createdAt ) delete data.createdAt
+            if(data.owner ) delete data.owner
+            if(data.updatedAt ) delete data.updatedAt
+            if(data.__v ) delete data.__v
+            if(data._id ) delete data._id
             
             const result = await updateData(pathUrl, data)
             console.log(result)
@@ -120,7 +127,10 @@ export const DataProvider = ({ children }) => {
                 fetchResponseData,
                 postCreatedData,
                 patchUpdateData,
-                deleteTheData
+                deleteTheData,
+
+                categories,
+                setCategories
             }}
         >
             {children}

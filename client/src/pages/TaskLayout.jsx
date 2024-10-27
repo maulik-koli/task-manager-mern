@@ -3,7 +3,7 @@ import { NavLink, Outlet, useLoaderData } from 'react-router-dom'
 
 import Loading from '../components/Loading'
 
-import { TaskContext } from '../contexts/TaskProvider'
+import { DataContext } from '../contexts/DataProvider'
 import { sortCategoriesArray } from '../utils/fuctions'
 
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -13,7 +13,7 @@ const { task, taskHeader, selectCate, taksNav, addTask, iconButton, taskLink, ac
 
 const TaskLayout = () => {
     const result = useLoaderData()
-    const { categories, setCategories } = useContext(TaskContext)
+    const { categories, setCategories } = useContext(DataContext)
     
     useEffect(() => {
         setCategories(sortCategoriesArray(result.data, 'None'))
