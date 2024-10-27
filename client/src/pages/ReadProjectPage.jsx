@@ -24,7 +24,8 @@ const ReadProjectPage = () => {
     patchUpdateData,
     dateResponse,
     fetchResponseData,
-    deleteTheData
+    deleteTheData,
+    responseData
   } = useContext(DataContext)
   const projectTaskRef = useRef(null)
   
@@ -55,8 +56,8 @@ const ReadProjectPage = () => {
     setSingleResponseData({
         ...singleResponseData,
         subtasks: newTasks
-    });
-  };
+    })
+  }
 
   const handleRemoveProjectTask = (task) => {
     const newTasks = singleResponseData.subtasks.filter((proTask) => proTask !== task)
@@ -68,7 +69,12 @@ const ReadProjectPage = () => {
 
   const handleSave = async (data) => {
     setIsDataLoading(true)
-    await patchUpdateData(`projects/${params.projectId}`, data)
+    const updateData = {
+      description: data.description,
+      subtasks: data.subtasks,
+      title: data.title
+    }
+    await patchUpdateData(`projects/${params.projectId}`, updateData)
   }
 
   const handleDeleteProject = async () => {
@@ -79,14 +85,14 @@ const ReadProjectPage = () => {
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  } 
+  }
 
   return (
     <div className={projectCon}>
       <>
-      {dateResponse && <AlertMessage msg={dateResponse} />}
-      {(!singleResponseData || isDataLoading ) ? <Loading /> :
+      {(!singleResponseData || isDataLoading) ? <Loading /> :
       <div className={addProjectCon}>
+        {dateResponse && <AlertMessage msg={dateResponse} />}
         <div className={topBtnsCon}>
           <h1>Create Project</h1>
           <div>
@@ -120,7 +126,7 @@ const ReadProjectPage = () => {
             <label>Project's Task</label>
           </div>
           <ul>
-              {singleResponseData.subtasks.map((proTask, index) => (
+              {singleResponseData.subtasks.length === 0 ? <></> : singleResponseData.subtasks.map((proTask, index) => (
                   <div className={list} key={proTask.subtask + index}>
                     <li>{proTask.subtask}</li>
                     <RemoveCircleIcon onClick={() => handleRemoveProjectTask(proTask.subtask)} />

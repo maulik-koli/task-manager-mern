@@ -17,20 +17,19 @@ export const DataProvider = ({ children }) => {
         try {
             const result = await fetchData(pathUrl)
             console.log(result)
-    
+
             if (result.error) {
                 throw new Error(result.error || "Unable to fetch data.")
             }
-    
-            if (result.data && typeof result.data === 'object') {
-                if (Array.isArray(result.data)) {
-                    setResponseData(result.data)
-                    finalData = result.data
+
+            if (Array.isArray(result.data) && result.data.length > 0) {
+                if (result.data.length === 1) {
+                    setSingleResponseData(result.data[0]);
                 } else {
-                    setSingleResponseData(result.data)
-                    finalData = result.data
+                    setResponseData(result.data);
                 }
             }
+            finalData = result.data
         } 
         catch (e) {
             console.log("Error fetching response data", e.message)
@@ -53,7 +52,9 @@ export const DataProvider = ({ children }) => {
             }
 
             setSingleResponseData(result.data.project)
-            setDataResponse(result.data.message)
+
+            if(data.category) setDataResponse(`Task is add at ${data.category}`)
+            else setDataResponse(result.data.message)
         }
         catch(e){
             console.log("Error posting response data", e.message)
@@ -73,6 +74,7 @@ export const DataProvider = ({ children }) => {
             if(data.updatedAt ) delete data.updatedAt
             if(data.__v ) delete data.__v
             if(data._id ) delete data._id
+            
             
             const result = await updateData(pathUrl, data)
             console.log(result)

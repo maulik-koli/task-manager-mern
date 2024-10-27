@@ -158,14 +158,55 @@
     align-items: center;
 }
 
-.theTask input {
+.theTask {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: #2718003c; 
+    color: #433f1d;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    height: 60px;
+}
+
+.taskCheckBox {
+    background-color: transparent;
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.theTask input[type='checkbox'] {
     transform: scale(1.5);
     margin: 0;
 }
 
-.theTask p {
+.commonTextStyle {
     flex-grow: 1;
+    margin-right: 2rem;
+    color: #433f1d;
+    font-size: inherit;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.theTask input[type='text'] {
+    color: #433f1d;
+    font-size: inherit;
+    width: 100%;
+    height: 80%;
+    padding: 0 0.5rem;
     margin: 0;
+    border: 2px solid #b67600;
+    background: #f4e986;
+    border-radius: 0.25rem;
+    outline: none;
+    margin-right: 2rem;
 }
 
 .taskBtns {
