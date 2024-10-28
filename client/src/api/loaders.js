@@ -5,7 +5,6 @@ import { fetchData } from "./api"
 export const userLoader = async () => {
     try{
         const result = await userProfile('me')
-        console.log("in loader", result)
 
         if (result.error) {
             if (result.status === 401) {
@@ -20,7 +19,6 @@ export const userLoader = async () => {
         return { status: result.status, data: result.data }
     } 
     catch (e) {
-        console.log("Error fetching user data:", e)
         return { redirect: '/auth/login' }
     }
 }
@@ -28,7 +26,7 @@ export const userLoader = async () => {
 export const dataLoader = async (pathUrl) => {
     try{
         const result = await fetchData(pathUrl)
-        console.log(result, "in loader")
+        console.log('%c loader', 'color: white; background-color: blue; font-weight: bold; border-radius: 5px;', result)
 
         if (result.error) {
             return { status: result.status, error: result.error || "Unable to fetch data." }
@@ -42,7 +40,6 @@ export const dataLoader = async (pathUrl) => {
         return { status: result.status, data: result.data }
     } 
     catch (e) {
-        console.log("Error fetching data:", e)
         return { status: e.status || 500, error: e.message || "An error occurred" }
     }
 }

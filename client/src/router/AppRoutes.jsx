@@ -15,12 +15,12 @@ import ProjectLayout from '../pages/ProjectLayout'
 import ProjectPage from '../pages/ProjectPage'
 import AddProjectPage from '../pages/AddProjectPage'
 import ReadProjectPage from '../pages/ReadProjectPage'
-import TaskPage from '../pages/TaskPage'
-
-import { userLoader, dataLoader } from '../api/loaders'
 import TaskLayout from '../pages/TaskLayout';
 import TaskPendingPage from '../pages/TaskPendingPage';
 import TaskCompletedPage from '../pages/TaskCompletedPage';
+import TaskPage from '../pages/TaskPage'
+
+import { userLoader, dataLoader } from '../api/loaders'
 
 const router = createBrowserRouter([
   {
@@ -32,8 +32,6 @@ const router = createBrowserRouter([
     ),
     loader: async () => {
       const result = await userLoader()
-      console.log("in router", result)
-
       if (result.redirect) {
         return <Navigate to={result.redirect} replace />
       }
@@ -78,7 +76,7 @@ const router = createBrowserRouter([
         path: 'task',
         element: (
           <ProtectedRoute>
-            <TaskLayout />
+              <TaskLayout />
           </ProtectedRoute>
         ),
         loader: async () => {

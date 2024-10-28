@@ -11,12 +11,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: xx-large;
+    font-size: 3rem;
     flex-direction: column;
     gap: .5rem;
 }
 
-.taskErrorCon a {
+.taskErrorCon button {
     text-decoration: none;
     background-color: #FFB74D;
     color: #a60000;
@@ -24,9 +24,10 @@
     width: 12rem;
     justify-content: center;
     border-radius: 2rem;
+    font-size: 2rem;
 }
 
-.taskErrorCon a:hover {
+.taskErrorCon button:hover {
     color: #FFFFFF;
 }
 
@@ -98,7 +99,12 @@
     border-radius: 0.5rem;
     border: 1px solid #FFA500;
     height: 90%;
+    width: 80%;
     background-color: #ffdc6a;
+}
+
+.addTask input.addCate {
+    width: 20% !important; /* Set the width to 20% */
 }
 
 .iconButton {
@@ -208,6 +214,8 @@
     outline: none;
     margin-right: 2rem;
 }
+
+
 
 .taskBtns {
     display: flex;

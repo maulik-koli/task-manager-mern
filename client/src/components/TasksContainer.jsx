@@ -5,11 +5,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import ClearIcon from '@mui/icons-material/Clear';
 import classes from '../styles/Task.module.css'
-const { allTaskCon, theTask, taskBtns, taskCheckBox, commonTextStyle } = classes
+const { allTaskCon, theTask, taskBtns, taskCheckBox, commonTextStyle, taskErrorCon } = classes
 
 const TasksContainer = ({ TASKS, onUpdate, onEdit, onDelete }) => {
+    console.log('%c TaskContainer!', 'color: white; background-color: blue; font-weight: bold; border-radius: 5px;', TASKS)
     const [editId, setEditId] = useState(null)
     const [taskDescription, setTaskDescription] = useState('')
+
+    // if(result.status === 404) return <p className={taskErrorCon}>There is no Tasks avaiable.</p>
+    // if(result.error) return <p className={taskErrorCon}>Something went wrong, try again later</p>
+
+    if(TASKS.length === 0) {
+        return <div className={taskErrorCon}><p>There is no Tasks avaiable.</p></div>
+    }
 
     const handleEditButton = (id, description) => {
         if (editId === id) {

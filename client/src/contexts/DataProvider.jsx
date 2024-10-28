@@ -32,12 +32,12 @@ export const DataProvider = ({ children }) => {
             finalData = result.data
         } 
         catch (e) {
-            console.log("Error fetching response data", e.message)
             setDataResponse(e.message)
             setResponseData(null)
             setSingleResponseData(null)
         } finally {
             setIsDataLoading(false)
+            console.log('%c DataProvider!', 'color: white; background-color: blue; font-weight: bold; border-radius: 5px;', finalData)
             return finalData
         }
     }
