@@ -42,16 +42,6 @@ router.get('/', auth, async (req, res) => {
         const tasks = req.user.tasks
 
         if (!tasks.length) {
-            if(req.query.category === "None") {
-                const categories = await Tasks.distinct('category', { owner: req.user._id })
-                match.category = categories[0]
-                await req.user.populate({
-                    path: 'tasks',
-                    match
-                })
-                return res.status(200).send(req.user.tasks)
-            }
-
             return res.status(404).send({ error: "There is no Tasks avaiable" }); 
         }
 

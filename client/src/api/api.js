@@ -14,10 +14,10 @@ export const fetchData = async (BASE_URL) => {
                 'Authorization': `Bearer ${token}`,
             }
         })
+        console.log('%c api!', 'color: white; background-color: blue; font-weight: bold; border-radius: 5px;', response)
 
         if(!response.ok) {
             const errorData = await response.json()
-            console.log("fetch data in api", errorData)
             return { status: response.status, error: errorData.error || 'Something went wrong' }
         }
 
@@ -25,7 +25,6 @@ export const fetchData = async (BASE_URL) => {
         return { status: response.status, data: responseData }
     }
     catch(e){
-        console.log(e.message)
         return { status: 500, error: 'Internal server error' }
     }
 }
