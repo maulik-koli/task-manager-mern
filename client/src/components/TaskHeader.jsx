@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef } from 'react'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 
 import { DataContext } from '../contexts/DataProvider';
@@ -8,8 +8,9 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import classes from '../styles/Task.module.css'
 const { taskHeader, selectCate, taksNav, addTask, iconButton, taskLink, active, addCate } = classes
 
-const TaskHeader = () => {
+const TaskHeader = ({ headerCondition }) => {
     const { categories, setCategories, setDataResponse, postCreatedData } = useContext(DataContext)
+
     const addTaskRef = useRef()
     const addCateRef = useRef()
 
@@ -40,7 +41,14 @@ const TaskHeader = () => {
     }
 
     const handleCategoryChange = (e) => {
+        if(e.target.value === '') return
         setCategories(sortCategoriesArray(categories, e.target.value))
+    }
+
+    const handleLinks = (e) => {
+        if(headerCondition !== '' && categories.length === 0){
+            e.prepreventDefault()
+        }
     }
 
     return (
@@ -48,8 +56,8 @@ const TaskHeader = () => {
             <div className={taskHeader}>
                 <div className={selectCate}>
                     <label>Select a Category:</label>
-                    {categories.length === 0 ? (
-                        <select id='categories' value='--No Categories available--' onChange={handleCategoryChange}>
+                    {(headerCondition !== '' && categories.length === 0) ? (
+                        <select id='categories' value="" onChange={handleCategoryChange}>
                             <option value="">--No Categories available--</option>
                         </select>
                     ) : (
@@ -65,19 +73,22 @@ const TaskHeader = () => {
                 <NavLink 
                     to='/task'
                     className={({ isActive }) => `${taskLink} ${isActive ? active : ''}`}
+                    onClick={handleLinks}
                     end
                 >
                     Padding
                 </NavLink>
                 <NavLink 
-                   to='/task/completed-tasks'  
+                    to='/task/completed-tasks'  
                     className={({ isActive }) => `${taskLink} ${isActive ? active : ''}`}
+                    onClick={handleLinks}
                 >
                     Completed
                 </NavLink>
                 <NavLink 
                     to='/task/all-tasks'  
                     className={({ isActive }) => `${taskLink} ${isActive ? active : ''}`}
+                    onClick={handleLinks}
                 >
                     All
                 </NavLink>

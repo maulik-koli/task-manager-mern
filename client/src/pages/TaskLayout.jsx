@@ -5,7 +5,6 @@ import TaskHeader from '../components/TaskHeader'
 import Loading from '../components/Loading'
 
 import { DataContext } from '../contexts/DataProvider'
-import { sortCategoriesArray } from '../utils/fuctions'
 
 import classes from '../styles/Task.module.css'
 const { task, taskErrorCon } = classes
@@ -13,42 +12,41 @@ const { task, taskErrorCon } = classes
 
 const TaskLayout = () => {
     const result = useLoaderData()
-    const { setCategories, dateResponse, isDataLoading} = useContext(DataContext)
-    console.log(result, "onegai...")
+    const { setCategories, isDataLoading, setIsDataLoading, dateResponse, setDataResponse} = useContext(DataContext)
     
-    if(result.error === 'No categories found.'){
-        return (
-            <div className={task}>
-                <>
-                    <TaskHeader />
-                    <div className={taskErrorCon}>
-                        <p>There is no tasks.</p>
-                    </div>
-                </>
-            </div>
-        )
+    useEffect(() => {
+        setIsDataLoading(true)
+        if(result.error){
+            if(result.status === 404) setDataResponse(result.error)
+            else{
+                setDataResponse(`Something went wrong. Please try again later.`)
+            }
+        }
+        else{
+            setCategories(result.data)
+            setDataResponse(null)
+        }
+        setIsDataLoading(false)
+    }, [result])
+    
+    const debug = (daijobu) => {
+        console.log('%c TaskLayout!', 'color: white; background-color: blue; font-weight: bold; border-radius: 5px;', daijobu)
     }
-
-    useEffect(() => {
-        if(result.data) setCategories(sortCategoriesArray(result.data, 'None'))
-    }, [])
-
-    useEffect(() => {
-        setCategories(sortCategoriesArray(result.data, 'None'))
-    }, [result.data])
+    debug([result])
 
     return (
         <div className={task}>
-            <TaskHeader />
-            {isDataLoading && <Loading /> }
-            {(dateResponse && (result.error !== 'No categories found.')) ? (
+            {isDataLoading && <Loading />}
+            {!isDataLoading && (
                 <>
-                    <div className={taskErrorCon}>
-                        <p>{dateResponse}</p>
-                        <p>Please try again leter.</p>
-                    </div>
+                    <TaskHeader headerCondition={dateResponse ? dateResponse : ''} />
+                    {!dateResponse ? <Outlet /> : (
+                        <div className={taskErrorCon}>
+                            <p>{dateResponse}</p>
+                        </div>
+                    )}
                 </>
-            ) : <Outlet /> }
+            )}
         </div>
     )
 }

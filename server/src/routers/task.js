@@ -58,7 +58,7 @@ router.get('/categories', auth, async (req, res) => {
         const categories = await Tasks.distinct('category', { owner: req.user._id })
         
         if (!categories.length) {
-            return res.status(404).send({ error: "No categories found." })
+            return res.status(404).send({ error: "You have no tasks available yet." })
         }
 
         res.status(200).send(categories)

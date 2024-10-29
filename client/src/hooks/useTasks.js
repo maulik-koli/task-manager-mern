@@ -1,70 +1,111 @@
 import { useState, useEffect, useContext } from "react";
+import { fetchData, updateData, deleteData } from "../api/api";
 import { DataContext } from "../contexts/DataProvider";
 
 const useTasks = (completedStatus) => {
-    const { fetchResponseData, categories, patchUpdateData, setDataResponse, deleteTheData, postCreatedData} = useContext(DataContext)
+    const { categories, updateCategry } = useContext(DataContext)
     const [tasks, setTasks] = useState([])
     const [isTaskLoading, setIsTaskLoading] = useState(true)
+    const [taskError, setTaskError] = useState(null)
 
     const fetchTasks = async () => {
         setIsTaskLoading(true)
-        let url = `tasks?category=${categories[0] || 'None'}`
-        if(completedStatus  !== null)  url += `&completed=${completedStatus}`
 
-        const response = await fetchResponseData(url)
-        console.log('%c Daijobu!', 'color: white; background-color: blue; font-weight: bold; border-radius: 5px;', response)
-        
-        if(!response) setTasks([])
-        else setTasks(response)
-        setIsTaskLoading(false)
+        if(!categories && categories.length === 0){
+            setTasks([])
+            return
+        }
+        let fetchTaskUrl = `tasks?category=${categories[0]}`
+        if(completedStatus  !== null) fetchTaskUrl += `&completed=${completedStatus}`
+
+        try{
+            const result = await fetchData(fetchTaskUrl)
+
+            if (result.error) {
+                throw new Error(result.error || "Unable to fetch tasks.")
+            }
+
+            setTasks(result.data)
+            setTaskError(null)
+        }
+        catch(e){
+            setTaskError(e.message)
+            setTasks([])
+        }
+        finally{
+            setIsTaskLoading(false)
+        }
     }
+
+    useEffect(() => {
+        const sideEffect = async () => {
+            await fetchTasks()
+        }
+        sideEffect()
+    }, [categories])
 
     const updateTask = async (id, completed) => {
         setIsTaskLoading(true)
+        try{
+            const result = await updateData(`tasks/${id}`, { completed: !completed })
 
-        await patchUpdateData(`tasks/${id}`, { completed: !completed })
-        await fetchTasks()
+            if (result.error) {
+                throw new Error(result.error || "Unable to update task.")
+            }
 
-        setIsTaskLoading(false)
+            await fetchTasks()
+        }
+        catch(e){
+            setTaskError(e.message)
+        }
+        finally{
+            setIsTaskLoading(false)
+        }
     }
 
-    const editTask = async (id, description) => {
+    const editTask = async (id, data) => {
         setIsTaskLoading(true)
+        try{
+            const result = await updateData(`tasks/${id}`, data)
 
-        await patchUpdateData(`tasks/${id}`, { description: description })
-        await fetchTasks()
+            if (result.error) {
+                throw new Error(result.error || "Unable to update task.")
+            }
 
-        setIsTaskLoading(false)
+            await fetchTasks()
+        }
+        catch(e){
+            setTaskError(e.message)
+        }
+        finally{
+            setIsTaskLoading(false)
+        }
     }
 
     const deleteTask = async (id) => {
         setIsTaskLoading(true)
+        try{
+            const result = await deleteData(`tasks/${id}`)
 
-        await deleteTheData(`tasks/${id}`)
-        await fetchTasks()
+            if (result.error) {
+                throw new Error(result.error || "Unable to delete task.")
+            }
 
-        setIsTaskLoading(false)
-    }
-
-    const createTask = async (data) => {
-        setIsTaskLoading(true)
-
-        await postCreatedData(`tasks`, data)
-        await fetchTasks()
-
-        setIsTaskLoading(false)
-    }
-
-    useEffect(() => {
-        const sideEffectFunction = async () => {
-            console.log('dame')
             await fetchTasks()
+            console.log(tasks)
+            if(tasks.length === 1){
+                updateCategry(categories[0])
+            }
         }
-        console.log(categories)
-        sideEffectFunction()
-    }, [completedStatus, categories])
+        catch(e){
+            setTaskError(e.message)
+        }
+        finally{
+            setIsTaskLoading(false)
+        }
+    }
 
-    return { tasks, isTaskLoading, updateTask, editTask, deleteTask, createTask }
+    return { tasks, isTaskLoading, taskError, updateTask, editTask, deleteTask }
 }
 
 export default useTasks

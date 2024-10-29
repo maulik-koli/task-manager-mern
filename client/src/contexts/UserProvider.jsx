@@ -23,7 +23,6 @@ export const UserProvider = ({ children }) => {
             result.data.updatedAt = formatDate(result.data.updatedAt)
             setUser(result.data)
         } catch (e) {
-            console.log("Error fetching user data", e.message)
             setUserResponse(e.message)
             setUser(null)
         } finally {
@@ -33,7 +32,6 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         fetchUser()
-        console.log("in user context first time", user)
     }, [])
     
     return (
