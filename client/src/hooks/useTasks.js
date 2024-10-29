@@ -66,7 +66,7 @@ const useTasks = (completedStatus) => {
     const editTask = async (id, data) => {
         setIsTaskLoading(true)
         try{
-            const result = await updateData(`tasks/${id}`, data)
+            const result = await updateData(`tasks/${id}`, { description: data })
 
             if (result.error) {
                 throw new Error(result.error || "Unable to update task.")

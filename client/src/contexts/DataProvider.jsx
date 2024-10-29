@@ -53,6 +53,7 @@ export const DataProvider = ({ children }) => {
 
             if(data.category) setDataResponse(`Task is add at ${data.category}`)
             else setDataResponse(result.data.message)
+            return result.data
         }
         catch(e){
             console.log("Error posting response data", e.message)
@@ -60,7 +61,6 @@ export const DataProvider = ({ children }) => {
             setSingleResponseData(null)
         } finally {
             setIsDataLoading(false)
-            return result.data
         }
     }
 

@@ -8,7 +8,7 @@ export const UserContext = createContext()
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [userResponse, setUserResponse] = useState(null)
-    const [userLoading, setUserLoading] = useState(false)
+    const [userLoading, setUserLoading] = useState(true)
 
     const fetchUser = async () => {
         setUserLoading(true);
