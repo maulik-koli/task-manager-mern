@@ -14,7 +14,6 @@ export const fetchData = async (BASE_URL) => {
                 'Authorization': `Bearer ${token}`,
             }
         })
-        console.log('%c api!', 'color: white; background-color: blue; font-weight: bold; border-radius: 5px;', response)
 
         if(!response.ok) {
             const errorData = await response.json()

@@ -26,7 +26,6 @@ export const userLoader = async () => {
 export const dataLoader = async (pathUrl) => {
     try{
         const result = await fetchData(pathUrl)
-        console.log('%c loader', 'color: white; background-color: blue; font-weight: bold; border-radius: 5px;', result)
 
         if (result.error) {
             return { status: result.status, error: result.error || "Unable to fetch data." }

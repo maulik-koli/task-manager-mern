@@ -16,7 +16,6 @@ export const DataProvider = ({ children }) => {
         let finalData = null
         try {
             const result = await fetchData(pathUrl)
-            console.log(result)
 
             if (result.error) {
                 throw new Error(result.error || "Unable to fetch data.")
@@ -37,7 +36,6 @@ export const DataProvider = ({ children }) => {
             setSingleResponseData(null)
         } finally {
             setIsDataLoading(false)
-            console.log('%c DataProvider!', 'color: white; background-color: blue; font-weight: bold; border-radius: 5px;', finalData)
             return finalData
         }
     }
@@ -114,6 +112,30 @@ export const DataProvider = ({ children }) => {
         }
     }
 
+    const updateCategry = async (cate) => {
+        console.log(cate)
+        setIsDataLoading(true)
+        try{
+            const taskResult = await fetchData(`tasks?category=${cate}`)
+
+            if (taskResult.error) {
+                if(taskResult.status === 404){
+                    const newCategoties = categories.filter((cat) => cat !== cate )
+                    setCategories(newCategoties)
+                }
+                else{
+                    throw new Error(taskResult.error || "Something went wromg.")
+                }
+            }
+        }
+        catch(e){
+            setDataResponse(e.message)
+        }
+        finally{
+            setIsDataLoading(false)
+        }
+    }
+
     return (
         <DataContext.Provider 
             value={{ 
@@ -132,7 +154,8 @@ export const DataProvider = ({ children }) => {
                 deleteTheData,
 
                 categories,
-                setCategories
+                setCategories,
+                updateCategry
             }}
         >
             {children}
