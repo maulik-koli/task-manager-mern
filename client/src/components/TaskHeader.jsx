@@ -17,7 +17,7 @@ const TaskHeader = ({ headerCondition }) => {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const handleAddTask = () => {
+    const handleAddTask = async () => {
         const data = {}
         if(addTaskRef.current.value === '') {
             setDataResponse("You can not add task without description.")
@@ -27,17 +27,18 @@ const TaskHeader = ({ headerCondition }) => {
         
         if(addCateRef.current.value === '') {
             data.category = 'None'
-            sortCategoriesArray(setCategories(categories, 'None'))
+            setCategories(sortCategoriesArray(categories, 'None'))
         }
         else {
             data.category = addCateRef.current.value
-            sortCategoriesArray(setCategories(categories, addCateRef.current.value))
+            setCategories(sortCategoriesArray(categories, addCateRef.current.value))
         }
 
-        postCreatedData('tasks',data)
+        const task = await postCreatedData('tasks',data)
+        setCategories(sortCategoriesArray(categories, task.task.category))
         navigate(location.pathname)
-        addTaskRef.current.value = ''
-        addCateRef.current.value = ''
+        if(addTaskRef.current.value) addTaskRef.current.value = ''
+        if(addCateRef.current.value) addCateRef.current.value = ''
     }
 
     const handleCategoryChange = (e) => {

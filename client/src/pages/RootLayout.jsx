@@ -24,7 +24,8 @@ const RootLayout = ({ userLoading }) => {
       <main>
           <SideMenu />
           {userLoading && <Loading />}
-          {!userLoading && <div className="content">
+          {!userLoading && 
+          <div className="content">
             <Outlet />
           </div>}
       </main>
