@@ -36,9 +36,9 @@ const TaskHeader = ({ headerCondition }) => {
 
         const task = await postCreatedData('tasks',data)
         setCategories(sortCategoriesArray(categories, task.task.category))
-        navigate(location.pathname)
         if(addTaskRef.current.value) addTaskRef.current.value = ''
         if(addCateRef.current.value) addCateRef.current.value = ''
+        navigate(location.pathname)
     }
 
     const handleCategoryChange = (e) => {
