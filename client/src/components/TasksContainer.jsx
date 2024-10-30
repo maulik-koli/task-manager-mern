@@ -24,6 +24,7 @@ const TasksContainer = ({ TASKS, onUpdate, onEdit, onDelete }) => {
 
     const handleSaveButton = (id) => {
         onEdit(id, taskDescription)
+        setEditId(null)
     }
 
     const handdleDeleteButton = (id) => {

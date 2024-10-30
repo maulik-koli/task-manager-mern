@@ -7,22 +7,22 @@ const Modal = forwardRef(({ title, message, visible, onClose, confirmOperation }
     useImperativeHandle(ref, () => ({
         show: () => {
             if (dialogRef.current) {
-                dialogRef.current.showModal();
+                dialogRef.current.showModal()
             }
         },
         close: () => {
             if (dialogRef.current) {
-                dialogRef.current.close();
+                dialogRef.current.close()
             }
         },
-    }));
+    }))
 
     const handleConfirm = async () => {
         if (confirmOperation) {
-            await confirmOperation();
-            onClose();
+            await confirmOperation()
+            onClose()
         }
-    };
+    }
 
     return (
         <>
@@ -38,7 +38,7 @@ const Modal = forwardRef(({ title, message, visible, onClose, confirmOperation }
                 </div>
             </dialog>
         </>
-    );
-});
+    )
+})
 
 export default Modal;

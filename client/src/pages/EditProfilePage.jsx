@@ -89,7 +89,6 @@ const EditProfilePage = () => {
         throw new Error(result.error || "Something went wrong.")
       }
 
-      console.log(result)
       await fetchUser()
       setUserResponse(null)
       navigate('..')

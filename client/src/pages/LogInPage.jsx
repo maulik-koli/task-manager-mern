@@ -36,8 +36,7 @@ const LogIn = () => {
             setUserResponse(result.error)
             return
         }
-
-        console.log("in login", result)
+        
         await fetchUser()
         setUserResponse('You have succefully log in.')
         event.target.reset();

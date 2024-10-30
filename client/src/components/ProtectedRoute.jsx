@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }) => {
     const { user, userLoading } = useContext(UserContext)
 
     if (userLoading) {
-        return <RootLayout userLoading/>;
+        return <RootLayout />
     }
 
     if (!user) {

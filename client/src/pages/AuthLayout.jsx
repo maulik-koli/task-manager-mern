@@ -3,11 +3,12 @@ import { Outlet } from 'react-router-dom'
 
 import Header from '../components/Header'
 import SideMenu from '../components/SideMenu'
+import Loading from '../components/Loading'
 
 import { UserContext } from '../contexts/UserProvider'
 
 const AuthLayout = () => {
-  const { setUserResponse } = useContext(UserContext)
+  const { setUserResponse, userLoading } = useContext(UserContext)
 
   useEffect(() => {
     setUserResponse(null)
@@ -18,9 +19,13 @@ const AuthLayout = () => {
       <Header />
       <main>
           <SideMenu />
-          <div className="content">
-            <Outlet />
-          </div>
+          <>
+            {userLoading && <Loading />}
+            {!userLoading &&
+            <div className="content">
+              <Outlet />
+            </div>}
+          </>
       </main>
     </>
   )

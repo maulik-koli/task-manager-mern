@@ -1,6 +1,7 @@
-import React, { useContext, useRef } from 'react'
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import React, { useContext, useState } from 'react'
+import { NavLink } from 'react-router-dom';
 
+import AlertMessage from './AlertMessage';
 import { DataContext } from '../contexts/DataProvider';
 import { sortCategoriesArray } from '../utils/fuctions';
 
@@ -9,36 +10,24 @@ import classes from '../styles/Task.module.css'
 const { taskHeader, selectCate, taksNav, addTask, iconButton, taskLink, active, addCate } = classes
 
 const TaskHeader = ({ headerCondition }) => {
-    const { categories, setCategories, setDataResponse, postCreatedData } = useContext(DataContext)
-
-    const addTaskRef = useRef()
-    const addCateRef = useRef()
-
-    const navigate = useNavigate()
-    const location = useLocation()
+    const { categories, setCategories, dateResponse, setDataResponse, createTask } = useContext(DataContext)
+    const [addTaskState, setAddTaskState] = useState({ description: '', category: ''})
 
     const handleAddTask = async () => {
-        const data = {}
-        if(addTaskRef.current.value === '') {
+        if(addTaskState.description === '') {
             setDataResponse("You can not add task without description.")
             return
         }
-        data.description = addTaskRef.current.value
         
-        if(addCateRef.current.value === '') {
-            data.category = 'None'
-            setCategories(sortCategoriesArray(categories, 'None'))
-        }
-        else {
-            data.category = addCateRef.current.value
-            setCategories(sortCategoriesArray(categories, addCateRef.current.value))
-        }
+        const newCategories = addTaskState.category === ''
+        ? sortCategoriesArray(categories, 'None')
+        : sortCategoriesArray(categories, addTaskState.category)
 
-        const task = await postCreatedData('tasks',data)
-        setCategories(sortCategoriesArray(categories, task.task.category))
-        if(addTaskRef.current.value) addTaskRef.current.value = ''
-        if(addCateRef.current.value) addCateRef.current.value = ''
-        navigate(location.pathname)
+        const task = await createTask('tasks',addTaskState)
+        if(task){
+            setCategories(newCategories)
+            setAddTaskState({ description: '', category: ''})
+        }        
     }
 
     const handleCategoryChange = (e) => {
@@ -55,6 +44,7 @@ const TaskHeader = ({ headerCondition }) => {
     return (
         <>
             <div className={taskHeader}>
+                {dateResponse && <AlertMessage msg={dateResponse} />}
                 <div className={selectCate}>
                     <label>Select a Category:</label>
                     {(headerCondition !== '' && categories.length === 0) ? (
@@ -103,13 +93,15 @@ const TaskHeader = ({ headerCondition }) => {
                 <input
                     type='text'
                     placeholder='Enter task here.'
-                    ref={addTaskRef}
+                    value={addTaskState.description}
+                    onChange={(e) => setAddTaskState({...addTaskState, description: e.target.value.toString()}) }
                 />
                 <input
                     type='text'
                     placeholder='Enter category here. (default: None)'
-                    ref={addCateRef}
                     className={addCate}
+                    value={addTaskState.category}
+                    onChange={(e) => setAddTaskState({...addTaskState, category: e.target.value.toString()}) }
                 />
             </div>
         </>

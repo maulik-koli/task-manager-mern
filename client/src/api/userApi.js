@@ -16,7 +16,6 @@ export const sigupLoginUser = async (BASE_URL, reqData) => {
 
         if (!response.ok) {
             const errorData = await response.json()
-            console.log(errorData, response.status)
             if(response.status !== 500){
                 return { status: response.status, error: errorData.message || 'Unable to login.' }
             }
@@ -30,10 +29,9 @@ export const sigupLoginUser = async (BASE_URL, reqData) => {
         return { status: response.status, data: responseData }
     } 
     catch(e) {
-        console.log(e.message)
         return { status: 500, error: 'Internal server error' }
     }
-};
+}
 
 export const userProfile = async (BASE_URL) => {
     const routeUrl = url + BASE_URL
@@ -57,7 +55,6 @@ export const userProfile = async (BASE_URL) => {
         return { status: response.status, data: responseData }
     }
     catch(e){
-        console.log(e.message)
         return { status: 500, error: 'Internal server error' }
     }
 }
@@ -85,7 +82,6 @@ export const editUser = async (BASE_URL, reqData) => {
         return { status: response.status, data: responseData }
     } 
     catch(e) {
-        console.log(e.message)
         return { status: 500, error: 'Internal server error' }
     }
 }
@@ -93,8 +89,6 @@ export const editUser = async (BASE_URL, reqData) => {
 export const logoutUser = async (BASE_URL) => {
     const routeUrl = url + BASE_URL
     const token = getCookie('authToken')
-
-    console.log('Token:', token)
     
     try {
         const response = await fetch(routeUrl, {
@@ -105,8 +99,6 @@ export const logoutUser = async (BASE_URL) => {
             },
         })
         
-        console.log(response)
-
         if (!response.ok) {
             const errorData = await response.json()
             return { status: response.status, error: errorData.message || 'Something went wrong' }
@@ -122,10 +114,9 @@ export const logoutUser = async (BASE_URL) => {
         return { status: responseData.status }
     } 
     catch(e) {
-        console.log(e.message);
-        return { status: 500, error: 'Internal server error' };
+        return { status: 500, error: 'Internal server error' }
     }
-};
+}
 
 export const deleteUser = async (BASE_URL) => {
     const routeUrl = url + BASE_URL
@@ -149,7 +140,6 @@ export const deleteUser = async (BASE_URL) => {
         return { status: response.status, data: responseData }
     } 
     catch(e) {
-        console.log(e.message)
         return { status: 500, error: 'Internal server error' }
     }
-};
+}

@@ -45,7 +45,6 @@ const SignUpPage = () => {
             return
         }
 
-        console.log("in sign in", result)
         await fetchUser()
         setUserResponse('You have succefully sign up.')
         event.target.reset();

@@ -7,26 +7,32 @@ const { projectHeader, projectGrid, projectItem, projectErrorCon } = classes
 
 const ProjectPage = () => {
   const result = useLoaderData()
-  const { data: PROJECTS, error } = result
-  console.log(result)
   const navigate = useNavigate()
-
-  if (error) {
-    return <div className={projectErrorCon}><p>{error}</p><Link to='/project/add-project'>Add Project</Link></div>;
+  
+  if(result.error) {
+    if(result.status === 404){
+      return <div className={projectErrorCon}><p>{result.error}</p><Link to='/project/add-project'>Add Project</Link></div>
+    }
+    else{
+      return <div className={projectErrorCon}><p>{result.error}</p></div>
+    }
   }
-
+  
   const handleNavigation = (id) => {
     navigate(`/project/${id}/read-project`)
   }
-
-  console.log("in project page", PROJECTS)
-  console.log("in project page1", error)
+  
+  const { data: PROJECTS } = result
 
   return (
     <>
      <div className={projectHeader}><Link to='/project/add-project'><AddBoxIcon />Add project</Link></div>
       <div className={projectGrid}>
-        {PROJECTS.map(project => (
+        {PROJECTS.length === 0 && 
+          <div className={projectErrorCon}><p>{result.error}</p><Link to='/project/add-project'>Add Project</Link></div>
+        }
+        {PROJECTS.length > 0 && 
+        PROJECTS.map(project => (
           <div key={project._id} className={projectItem} onClick={() => handleNavigation(project._id)}>
             <h3>{project.title}</h3>
           </div>

@@ -8,10 +8,9 @@ import Loading from '../components/Loading'
 import { UserContext } from '../contexts/UserProvider'
 
 
-const RootLayout = ({ userLoading }) => {
+const RootLayout = () => {
   const result = useLoaderData()
-  
-  const { user, setUserResponse, setUser } = useContext(UserContext)
+  const { user, setUserResponse, setUser, userLoading } = useContext(UserContext)
 
   useEffect(() => {
     setUser(result.data)

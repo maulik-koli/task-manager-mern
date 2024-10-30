@@ -13,7 +13,7 @@ const Header = ({ user }) => {
       <h1 className="site-title">Task Manager</h1>
       <div className="auth-links">
         <ul>
-         {!user ? 
+         {!user && 
           <>
             <li >
               <Link to="/auth/signup">Sign Up</Link>
@@ -21,14 +21,15 @@ const Header = ({ user }) => {
             <li>
               <Link to="/auth/login">Login</Link>
             </li>
-          </> :
+          </>}
+          {user && 
           <li className="profile-link">
             <Link to="/profile"  >{user.name}</Link>
           </li>}
         </ul>
       </div>
     </header>
-  );
-};
+  )
+}
 
 export default Header;
