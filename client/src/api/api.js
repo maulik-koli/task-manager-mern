@@ -42,22 +42,18 @@ export const postData = async (BASE_URL, reqData) => {
             body: JSON.stringify(reqData),
         })
 
-        console.log(response)
         if (!response.ok) {
             const errorData = await response.json()
-            console.log(errorData, response.status)
             return { status: response.status, error: errorData.message || 'Something went wrong.' }
         }
         
-        const responseData = await response.json();
-        console.log(responseData)
-        return { status: response.status, data: responseData };
+        const responseData = await response.json()
+        return { status: response.status, data: responseData }
     } 
     catch(e) {
-        console.log(e.message)
         return { status: 500, error: 'Internal server error' }
     }
-};
+}
 
 export const updateData = async (BASE_URL, reqData) => {
     const routeUrl = url + BASE_URL
@@ -71,9 +67,7 @@ export const updateData = async (BASE_URL, reqData) => {
             },
             body: JSON.stringify(reqData),
         })
-
-        console.log(response)
-
+        
         if (!response.ok) {
             const errorData = await response.json()
             return { status: response.status, error: errorData.message || 'Something went wrong' }
@@ -83,7 +77,6 @@ export const updateData = async (BASE_URL, reqData) => {
         return { status: response.status, data: responseData }
     } 
     catch(e) {
-        console.log(e.message);
         return { status: 500, error: 'Internal server error' }
     }
 }
@@ -110,7 +103,6 @@ export const deleteData = async (BASE_URL) => {
         return { status: response.status, data: responseData }
     } 
     catch(e) {
-        console.log(e.message);
         return { status: 500, error: 'Internal server error' }
     }
-};
+}

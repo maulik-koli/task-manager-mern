@@ -1,119 +1,68 @@
 import { createContext, useState } from "react"
-import { fetchData, postData, updateData, deleteData } from "../api/api"
+import { fetchData, postData } from "../api/api"
 
 export const DataContext = createContext()
 
 export const DataProvider = ({ children }) => {
-    const [responseData, setResponseData] = useState(null)
-    const [singleResponseData, setSingleResponseData] = useState(null)
+    const [data, setData] = useState(null)
     const [isDataLoading, setIsDataLoading] = useState(false)
     const [dateResponse, setDataResponse] = useState(null)
     const [categories, setCategories] = useState([])
 
-
-    const fetchResponseData = async (pathUrl) => {
+    const createProject = async (pathUrl, data) => {
         setIsDataLoading(true)
-        let finalData = null
-        try {
-            const result = await fetchData(pathUrl)
-
-            if (result.error) {
-                throw new Error(result.error || "Unable to fetch data.")
-            }
-
-            if (Array.isArray(result.data) && result.data.length > 0) {
-                if (result.data.length === 1) {
-                    setSingleResponseData(result.data[0]);
-                } else {
-                    setResponseData(result.data);
-                }
-            }
-            finalData = result.data
-        } 
-        catch (e) {
-            setDataResponse(e.message)
-            setResponseData(null)
-            setSingleResponseData(null)
-        } finally {
-            setIsDataLoading(false)
-            return finalData
-        }
-    }
-
-    const postCreatedData = async (pathUrl, data) => {
-        setIsDataLoading(true)
+        let createdProject = null
         try{
             const result = await postData(pathUrl, data)
-            console.log(result)
+            
             if (result.error) {
                 throw new Error(result.error || "Unable to post data.")
             }
 
-            setSingleResponseData(result.data.project)
-
-            if(data.category) setDataResponse(`Task is add at ${data.category}`)
-            else setDataResponse(result.data.message)
-            return result.data
+            setData(result.data.project)
+            setDataResponse(result.data.message)
+            createdProject = result.data.project
         }
         catch(e){
-            console.log("Error posting response data", e.message)
             setDataResponse(e.message)
-            setSingleResponseData(null)
-        } finally {
+        } 
+        finally {
             setIsDataLoading(false)
+            const timeoutId = setTimeout(() => {
+                setDataResponse(null)
+            }, 100)
+            return createdProject
         }
     }
-
-    const patchUpdateData = async (pathUrl, data) => {
+    
+    const createTask = async (pathUrl, data) => {
+        if(data.category === '') data.category = 'None'
         setIsDataLoading(true)
+        let createdTask = null
         try{
-            if(data.createdAt ) delete data.createdAt
-            if(data.owner ) delete data.owner
-            if(data.updatedAt ) delete data.updatedAt
-            if(data.__v ) delete data.__v
-            if(data._id ) delete data._id
+            const task = await postData(pathUrl, data)
             
-            
-            const result = await updateData(pathUrl, data)
-            console.log(result)
-
-            if (result.error) {
-                throw new Error(result.error || "Unable to update data.");
+            if (task.error) {
+                throw new Error(result.error || "Unable to post data.")
             }
 
-            setSingleResponseData(result.data.project);
+            setData(task.data.task)
+            setDataResponse(task.data.message)
+            createdTask = task.data.task
         }
         catch(e){
-            console.log("Error posting response data", e.message);
             setDataResponse(e.message)
-        } finally {
-            setIsDataLoading(false);
-        }
-    }
-
-    const deleteTheData = async (pathUrl) => {
-        setIsDataLoading(true)
-        try{
-            const result = await deleteData(pathUrl)
-            console.log(result)
-
-            if (result.error) {
-                throw new Error(result.error || "Unable to delete data.")
-            }
-
-            setResponseData(result.data.message)
-        }
-        catch(e){
-            console.log("Error fetching response data", e.message)
-            setDataResponse(e.message)
-            setResponseData(null)
-        } finally {
+        } 
+        finally {
             setIsDataLoading(false)
+            const timeoutId = setTimeout(() => {
+                setDataResponse(null)
+            }, 100)
+            return createdTask
         }
     }
 
     const updateCategry = async (cate) => {
-        console.log(cate)
         setIsDataLoading(true)
         try{
             const taskResult = await fetchData(`tasks?category=${cate}`)
@@ -138,21 +87,17 @@ export const DataProvider = ({ children }) => {
 
     return (
         <DataContext.Provider 
-            value={{ 
-                responseData,
-                setResponseData,
-                singleResponseData,
-                setSingleResponseData,
+            value={{
+                data,
+                setData,
+                createProject,
+                createTask,
+
                 isDataLoading,
                 setIsDataLoading,
                 dateResponse,
                 setDataResponse,
                 
-                fetchResponseData,
-                postCreatedData,
-                patchUpdateData,
-                deleteTheData,
-
                 categories,
                 setCategories,
                 updateCategry

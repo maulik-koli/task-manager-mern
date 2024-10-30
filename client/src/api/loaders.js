@@ -8,7 +8,7 @@ export const userLoader = async () => {
 
         if (result.error) {
             if (result.status === 401) {
-                return { redirect: '/auth/login' };
+                return { redirect: '/auth/login' }
             }
             return { status: result.status, error: result.error || "Something went wrong" }
         }

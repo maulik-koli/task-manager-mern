@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState, useCallback, useMemo } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import Modal from '../components/Modal'
@@ -60,8 +60,6 @@ const ProfilePage = () => {
       setModalType({ title: '', message: '', confirmOperation: null });
       modalRef.current.close();
   };
-
-  console.log("in the show peofile page" , user)
 
   return (
     <div className={profCon}>

@@ -92,7 +92,6 @@ const useTasks = (completedStatus) => {
             }
 
             await fetchTasks()
-            console.log(tasks)
             if(tasks.length === 1){
                 updateCategry(categories[0])
             }
