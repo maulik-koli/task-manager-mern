@@ -62,7 +62,8 @@ export const formatDate = (dateString) => {
 }
 
 export const sortCategoriesArray = (categoriesArray, cate) => {
-    if(!categoriesArray || !cate || cate === '') return
+    if(!categoriesArray) return
+    if(cate === '') return [...categoriesArray]
     
     const indexOfCate = categoriesArray.indexOf(cate)
 

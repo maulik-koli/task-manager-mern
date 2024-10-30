@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 
 import AlertMessage from './AlertMessage';
 import { DataContext } from '../contexts/DataProvider';
@@ -9,9 +9,12 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import classes from '../styles/Task.module.css'
 const { taskHeader, selectCate, taksNav, addTask, iconButton, taskLink, active, addCate } = classes
 
-const TaskHeader = ({ headerCondition }) => {
+const TaskHeader = ({ headerCondition, setLayoutError }) => {
     const { categories, setCategories, dateResponse, setDataResponse, createTask } = useContext(DataContext)
     const [addTaskState, setAddTaskState] = useState({ description: '', category: ''})
+
+    const navigate = useNavigate()
+    const location = useLocation()
 
     const handleAddTask = async () => {
         if(addTaskState.description === '') {
@@ -27,7 +30,13 @@ const TaskHeader = ({ headerCondition }) => {
         if(task){
             setCategories(newCategories)
             setAddTaskState({ description: '', category: ''})
-        }        
+            setLayoutError(null)
+        }
+        else setLayoutError("Somethign went wrong.")
+        setTimeout(() => {
+            navigate(location.pathname);
+        }, 0)
+        
     }
 
     const handleCategoryChange = (e) => {

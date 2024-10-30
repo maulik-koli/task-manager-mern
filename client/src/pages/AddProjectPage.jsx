@@ -27,23 +27,23 @@ const AddProjectPage = () => {
 
   const handleAddProjectTask = () => {
     const title = projectTaskRef.current.value.toString()
-    if(projectData.subtasks.some(task => task.title === title)) {
+    if(projectData.subtasks.some(task => task.subtask === title)) {
       setDataResponse('You cannot add tasks with the same name!')
       return
     }
-
-    const newTasks = [{ title }, ...projectData.subtasks];
+  
+    const newTasks = [{ subtask: title, isDone: false }, ...projectData.subtasks]
     setProjectData({
-        ...projectData,
-        subtasks: newTasks
+      ...projectData,
+      subtasks: newTasks,
     })
   }
 
   const handleRemoveProjectTask = (task) => {
-    const newTasks = projectData.subtasks.filter((proTask) => proTask !== task)
+    const newTasks = projectData.subtasks.filter((proTask) => proTask.subtask !== task)
     setProjectData({
-        ...projectData,
-        subtasks: newTasks
+      ...projectData,
+      subtasks: newTasks,
     })
   }
 
@@ -56,7 +56,7 @@ const AddProjectPage = () => {
     const createdProjectData = await createProject('projects', {
         title: projectData.title.toString(),
         description: projectData.description.toString(),
-        subtasks: projectData.subtasks.map(task => ({ title: task.title }))
+        subtasks: projectData.subtasks,
     })
 
     if (createdProjectData !== null) {
@@ -110,13 +110,16 @@ const AddProjectPage = () => {
                 <label>Project's Task</label>
               </div>
               <ul>
-                  {projectData.subtasks.length === 0 ? <></> :
+              {projectData.subtasks.length === 0 ? (
+                  <></>
+                ) : (
                   projectData.subtasks.map((proTask, index) => (
-                      <div className={list} key={proTask.title + index}>
-                        <li>{proTask.title}</li>
-                        <RemoveCircleIcon onClick={() => handleRemoveProjectTask(proTask.title)} />
-                      </div>
-                  ))}
+                    <div className={list} key={proTask.subtask + index}>
+                      <li>{proTask.subtask}</li>
+                      <RemoveCircleIcon onClick={() => handleRemoveProjectTask(proTask.subtask)} />
+                    </div>
+                  ))
+                )}
               </ul>
             </div>
           </div>

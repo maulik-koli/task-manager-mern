@@ -13,18 +13,20 @@ const TaskCompletedPage = () => {
     return (
         <>
             {isTaskLoading && <Loading />}
-            {!isTaskLoading && 
-            taskError ? (
+            {!isTaskLoading &&
+            <>
+                {taskError ? (
                 <div className={taskErrorCon}>
                     <p>{taskError}</p>
                 </div>
-            ) :
-            <TasksContainer 
-                TASKS={tasks}
-                onUpdate={updateTask}
-                onEdit={editTask}
-                onDelete={deleteTask}
-            />}
+                ) :
+                <TasksContainer 
+                    TASKS={tasks}
+                    onUpdate={updateTask}
+                    onEdit={editTask}
+                    onDelete={deleteTask}
+                />}
+            </>}
         </>
     )
 }
