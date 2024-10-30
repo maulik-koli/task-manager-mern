@@ -13,25 +13,22 @@ const TaskPendingPage = () => {
     return (
         <>
             {isTaskLoading && <Loading />}
-            {!isTaskLoading && 
-            taskError ? (
+            {!isTaskLoading &&
+            <>
+                {taskError ? (
                 <div className={taskErrorCon}>
                     <p>{taskError}</p>
                 </div>
-            ) :
-            <TasksContainer 
-                TASKS={tasks}
-                onUpdate={updateTask}
-                onEdit={editTask}
-                onDelete={deleteTask}
-            />}
+                ) :
+                <TasksContainer 
+                    TASKS={tasks}
+                    onUpdate={updateTask}
+                    onEdit={editTask}
+                    onDelete={deleteTask}
+                />}
+            </>}
         </>
     )
 }
 
 export default TaskPendingPage
-
-// const debug = (daijobu) => {
-//     console.log('%c Header!', 'color: white; background-color: blue; font-weight: bold; border-radius: 5px;', daijobu)
-// }
-// debug(categories)

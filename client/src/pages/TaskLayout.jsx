@@ -5,6 +5,7 @@ import TaskHeader from '../components/TaskHeader'
 import Loading from '../components/Loading'
 
 import { DataContext } from '../contexts/DataProvider'
+import { sortCategoriesArray } from '../utils/fuctions'
 
 import classes from '../styles/Task.module.css'
 const { task, taskErrorCon } = classes
@@ -12,7 +13,7 @@ const { task, taskErrorCon } = classes
 
 const TaskLayout = () => {
     const result = useLoaderData()
-    const { setCategories, isDataLoading, setIsDataLoading} = useContext(DataContext)
+    const { setCategories, isDataLoading, setIsDataLoading, categories} = useContext(DataContext)
     const [layoutError, setLayoutError] = useState(null)
     
     useEffect(() => {
@@ -24,7 +25,9 @@ const TaskLayout = () => {
             }
         }
         else{
-            setCategories(result.data)
+            if(!categories || categories.length === 0) setCategories(sortCategoriesArray(result.data, ''))
+            else setCategories(sortCategoriesArray(result.data, categories[0]))
+            
             setLayoutError(null)
         }
         setIsDataLoading(false)
@@ -36,7 +39,7 @@ const TaskLayout = () => {
             {isDataLoading && <Loading />}
             {!isDataLoading && (
                 <>
-                    <TaskHeader headerCondition={layoutError ? layoutError : ''} />
+                    <TaskHeader headerCondition={layoutError ? layoutError : ''} setLayoutError={setLayoutError} />
                     {!layoutError && <Outlet />} 
                     {layoutError && (
                         <div className={taskErrorCon}>
