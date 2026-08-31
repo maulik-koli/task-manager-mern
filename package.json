@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "set NODE_ENV=development&& nodemon server/src/app.js",
-    "build": "npm install && npm install --prefix client && npm run build --prefix client",
-    "start": "set NODE_ENV=production&& node server/src/app.js"
+    "dev": "node api.js && set NODE_ENV=development&& nodemon server/src/app.js",
+    "build": "node api.js && npm install && npm install --prefix client && npm run build --prefix client",
+    "start": "node api.js && set NODE_ENV=production&& node server/src/app.js"
   },
   "keywords": [],
   "author": "",
